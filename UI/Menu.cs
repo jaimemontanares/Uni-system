@@ -23,16 +23,16 @@ namespace UniversitySystem.UI
             {
                 Console.Clear();
                 Console.WriteLine("=== UNIVERSITY MANAGEMENT SYSTEM ===");
-                Console.WriteLine("[1] Create Course");
-                Console.WriteLine("[2] Enroll Student to Course");
-                Console.WriteLine("[3] Print Courses and Participants");
-                Console.WriteLine("[4] Search Course");
-                Console.WriteLine("[5] Search Book");
-                Console.WriteLine("[6] Loan Book");
-                Console.WriteLine("[7] Return Book");
-                Console.WriteLine("[8] Register Book");
-                Console.WriteLine("[0] Exit");
-                Console.Write("\nSelect option: ");
+                Console.WriteLine("[1] Opprett kurs");
+                Console.WriteLine("[2] Meld student til kurs");
+                Console.WriteLine("[3] Print kurs og deltagere");
+                Console.WriteLine("[4] Søk på kurs");
+                Console.WriteLine("[5] Søk på bok");
+                Console.WriteLine("[6] Lån bok");
+                Console.WriteLine("[7] Returner bok");
+                Console.WriteLine("[8] Registrer bok");
+                Console.WriteLine("[0] Avslutt");
+                Console.Write("\nVelg alternativ: ");
 
                 string choice = Console.ReadLine();
 
@@ -45,13 +45,13 @@ namespace UniversitySystem.UI
                         EnrollStudent();
                         break;
                     case "3":
-                        PrintCourses();
+                        CourseOverviewMenu();
                         break;
                     case "4":
                         SearchCourse();
                         break;
                     case "5":
-                        SearchBook();
+                        LibraryOverviewMenu();
                         break;
                     case "6":
                         ProcessLoan();
@@ -66,13 +66,13 @@ namespace UniversitySystem.UI
                         running = false;
                         break;
                     default:
-                        Console.WriteLine("Invalid option.");
+                        Console.WriteLine("Ugyldig valg.");
                         break;
                 }
 
                 if (running)
                 {
-                    Console.WriteLine("\nPress any key to continue...");
+                    Console.WriteLine("\nTrykk en tast for å fortsette...");
                     Console.ReadKey();
                 }
             }
@@ -117,17 +117,40 @@ namespace UniversitySystem.UI
 
             if (student == null || course == null)
             {
-                Console.WriteLine("Student or course not found.");
+                Console.WriteLine("Student eller kurs ble ikke funnet.");
                 return;
             }
 
             if (course.EnrollStudent(student))
             {
-                Console.WriteLine("Enrollment successful.");
+                Console.WriteLine("Student successfully enrolled.");
             }
             else
             {
                 Console.WriteLine("Enrollment failed. Student may already be enrolled or course is full.");
+            }
+        }
+
+        private void CourseOverviewMenu()
+        {
+            Console.WriteLine("\n=== Kursoversikt ===");
+            Console.WriteLine("[1] Print kurs og deltagere");
+            Console.WriteLine("[2] Meld student av kurs");
+            Console.Write("Velg alternativ: ");
+
+            string choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1":
+                    PrintCourses();
+                    break;
+                case "2":
+                    RemoveStudentFromCourse();
+                    break;
+                default:
+                    Console.WriteLine("Ugyldig valg.");
+                    break;
             }
         }
 
@@ -156,6 +179,24 @@ namespace UniversitySystem.UI
             }
         }
 
+        private void RemoveStudentFromCourse()
+        {
+            Console.Write("Student Email: ");
+            string email = Console.ReadLine();
+
+            Console.Write("Course Code: ");
+            string code = Console.ReadLine();
+
+            if (_manager.RemoveStudentFromCourse(email, code))
+            {
+                Console.WriteLine("Student removed from course successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Could not remove student. Check email, course code, or enrollment status.");
+            }
+        }
+
         private void SearchCourse()
         {
             Console.Write("Enter search term: ");
@@ -175,6 +216,33 @@ namespace UniversitySystem.UI
             }
         }
 
+        private void LibraryOverviewMenu()
+        {
+            Console.WriteLine("\n=== Bibliotek ===");
+            Console.WriteLine("[1] Søk på bok");
+            Console.WriteLine("[2] Vis aktive lån");
+            Console.WriteLine("[3] Vis lånehistorikk");
+            Console.Write("Velg alternativ: ");
+
+            string choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1":
+                    SearchBook();
+                    break;
+                case "2":
+                    ShowActiveLoans();
+                    break;
+                case "3":
+                    ShowLoanHistory();
+                    break;
+                default:
+                    Console.WriteLine("Ugyldig valg.");
+                    break;
+            }
+        }
+
         private void SearchBook()
         {
             Console.Write("Enter Book Title: ");
@@ -191,6 +259,46 @@ namespace UniversitySystem.UI
             foreach (var book in books)
             {
                 Console.WriteLine($"ID: {book.Id} | {book.Title} by {book.Author} | Available: {book.AvailableCopies}/{book.TotalCopies}");
+            }
+        }
+
+        private void ShowActiveLoans()
+        {
+            var activeLoans = _manager.GetActiveLoans().ToList();
+
+            if (!activeLoans.Any())
+            {
+                Console.WriteLine("No active loans.");
+                return;
+            }
+
+            Console.WriteLine("\n=== Active Loans ===");
+            foreach (var loan in activeLoans)
+            {
+                Console.WriteLine(
+                    $"Book: {loan.Book.Title} | User: {loan.User.Name} ({loan.User.Email}) | Loan Date: {loan.LoanDate:g}");
+            }
+        }
+
+        private void ShowLoanHistory()
+        {
+            var history = _manager.GetLoanHistory().ToList();
+
+            if (!history.Any())
+            {
+                Console.WriteLine("No loan history found.");
+                return;
+            }
+
+            Console.WriteLine("\n=== Loan History ===");
+            foreach (var loan in history)
+            {
+                string status = loan.ReturnDate == null
+                    ? "Active"
+                    : $"Returned: {loan.ReturnDate:g}";
+
+                Console.WriteLine(
+                    $"Book: {loan.Book.Title} | User: {loan.User.Name} ({loan.User.Email}) | Loaned: {loan.LoanDate:g} | {status}");
             }
         }
 

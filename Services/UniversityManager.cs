@@ -48,6 +48,26 @@ namespace UniversitySystem.Services
                 c.CourseCode.Equals(code, StringComparison.OrdinalIgnoreCase));
         }
 
+        public bool RemoveStudentFromCourse(string studentEmail, string courseCode)
+        {
+            var student = FindStudentByEmail(studentEmail);
+            var course = FindCourseByCode(courseCode);
+
+            if (student == null || course == null)
+            {
+                return false;
+            }
+
+            if (!course.EnrolledStudents.Any(s =>
+                s.Email.Equals(studentEmail, StringComparison.OrdinalIgnoreCase)))
+            {
+                return false;
+            }
+
+            course.RemoveStudent(student);
+            return true;
+        }
+
         // Library Management
         public void RegisterBook(Book book)
         {
@@ -105,6 +125,16 @@ namespace UniversitySystem.Services
             loan.ReturnDate = DateTime.Now;
             loan.Book.AvailableCopies++;
             return true;
+        }
+
+        public IEnumerable<Loan> GetActiveLoans()
+        {
+            return Loans.Where(l => l.ReturnDate == null);
+        }
+
+        public IEnumerable<Loan> GetLoanHistory()
+        {
+            return Loans.OrderByDescending(l => l.LoanDate);
         }
 
         public int GetNextBookId()
