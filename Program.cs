@@ -1,4 +1,3 @@
-C#
 using UniversitySystem.Data;
 using UniversitySystem.UI;
 
