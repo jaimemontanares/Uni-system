@@ -54,7 +54,9 @@ The application currently supports:
 ```text
 Uni-system/
 │
+├── Uni-system.csproj
 ├── Program.cs
+├── License
 │
 ├── Models/
 │   ├── User.cs
@@ -128,7 +130,7 @@ The project starts with preloaded demo data through `SeedData`.
 
 ## License
 
-To be decided.
+Educational use permitted. Commercial use requires permission from the author.
 
 ---
 
