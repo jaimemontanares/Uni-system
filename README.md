@@ -56,7 +56,7 @@ Uni-system/
 │
 ├── Uni-system.csproj
 ├── Program.cs
-├── License
+├── Custom Educational License
 │
 ├── Models/
 │   ├── User.cs
