@@ -1,4 +1,3 @@
-C#
 using System.Collections.Generic;
 
 namespace UniversitySystem.Models
