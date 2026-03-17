@@ -1,4 +1,3 @@
-C#
 namespace UniversitySystem.Models
 {
     public abstract class User
