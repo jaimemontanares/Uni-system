@@ -1,4 +1,3 @@
-C#
 namespace UniversitySystem.Models
 {
     public class Employee : User
