@@ -82,7 +82,7 @@ Uni-system/
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/Uni-system.git
+git clone https://github.com/jaimemontanares/Uni-system.git
 ```
 
 2. Open the project in Visual Studio or Visual Studio Code.
