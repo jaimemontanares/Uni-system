@@ -1,4 +1,3 @@
-C#
 using System;
 
 namespace UniversitySystem.Models
