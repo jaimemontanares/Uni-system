@@ -5,14 +5,28 @@ using UniversitySystem.Models;
 
 namespace UniversitySystem.Services
 {
+    /// <summary>
+    /// Håndterer hovedlogikken i systemet:
+    /// kursadministrasjon, brukere, bibliotek og utlån.
+    /// </summary>
     public class UniversityManager
     {
+        // Liste over alle kurs i systemet.
         public List<Course> Courses { get; set; } = new List<Course>();
+        // Liste over alle brukere, inkludert studenter og ansatte.
         public List<User> Users { get; set; } = new List<User>();
+        // Liste over registrerte bøker.
         public List<Book> Books { get; set; } = new List<Book>();
+        // Liste over alle utlån, både aktive og avsluttede.
         public List<Loan> Loans { get; set; } = new List<Loan>();
 
-        // Course Management
+        // -------------------------
+        // Kursadministrasjon
+        // -------------------------
+
+        /// <summary>
+        /// Legger til et nytt kurs dersom objektet er gyldig.
+        /// </summary>
         public void AddCourse(Course course)
         {
             if (course != null)
@@ -20,7 +34,10 @@ namespace UniversitySystem.Services
                 Courses.Add(course);
             }
         }
-
+        
+        /// <summary>
+        /// Søker etter kurs basert på kurskode eller kursnavn.
+        /// </summary>
         public List<Course> SearchCourses(string query)
         {
             if (string.IsNullOrWhiteSpace(query))
@@ -35,18 +52,27 @@ namespace UniversitySystem.Services
                 .ToList();
         }
 
+        /// <summary>
+        /// Finner en student ved hjelp av e-postadresse.
+        /// </summary>
         public Student FindStudentByEmail(string email)
         {
             return Users.OfType<Student>()
                 .FirstOrDefault(s => s.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
         }
-
+        
+        /// <summary>
+        /// Finner et kurs basert på kurskode.
+        /// </summary>
         public Course FindCourseByCode(string code)
         {
             return Courses.FirstOrDefault(c =>
                 c.CourseCode.Equals(code, StringComparison.OrdinalIgnoreCase));
         }
 
+        /// <summary>
+        /// Fjerner en student fra et kurs dersom studenten er registrert.
+        /// </summary>
         public bool RemoveStudentFromCourse(string studentEmail, string courseCode)
         {
             var student = FindStudentByEmail(studentEmail);
@@ -57,6 +83,7 @@ namespace UniversitySystem.Services
                 return false;
             }
 
+            // Kontrollerer at studenten faktisk er meldt opp i kurset.
             if (!course.EnrolledStudents.Any(s =>
                 s.Email.Equals(studentEmail, StringComparison.OrdinalIgnoreCase)))
             {
@@ -67,7 +94,13 @@ namespace UniversitySystem.Services
             return true;
         }
 
-        // Library Management
+        // -------------------------
+        // Bibliotekadministrasjon
+        // -------------------------
+
+        /// <summary>
+        /// Registrerer en ny bok i biblioteket.
+        /// </summary>
         public void RegisterBook(Book book)
         {
             if (book != null)
@@ -76,6 +109,9 @@ namespace UniversitySystem.Services
             }
         }
 
+        /// <summary>
+        /// Søker etter bøker basert på tittel.
+        /// </summary>
         public IEnumerable<Book> SearchBooks(string title)
         {
             if (string.IsNullOrWhiteSpace(title))
@@ -87,6 +123,10 @@ namespace UniversitySystem.Services
                 b.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
         }
 
+        /// <summary>
+        /// Oppretter et utlån dersom bok og bruker finnes,
+        /// og boka er tilgjengelig.
+        /// </summary>
         public bool LoanBook(int bookId, string userEmail)
         {
             var book = Books.FirstOrDefault(b => b.Id == bookId);
@@ -105,10 +145,14 @@ namespace UniversitySystem.Services
                 LoanDate = DateTime.Now
             });
 
+            // Reduserer antall tilgjengelige eksemplarer etter utlån.
             book.AvailableCopies--;
             return true;
         }
 
+        /// <summary>
+        /// Returnerer en bok og oppdaterer lagerstatus.
+        /// </summary>
         public bool ReturnBook(int bookId, string userEmail)
         {
             var loan = Loans.FirstOrDefault(l =>
@@ -122,20 +166,30 @@ namespace UniversitySystem.Services
             }
 
             loan.ReturnDate = DateTime.Now;
+            // Øker tilgjengelige eksemplarer når boka leveres tilbake.
             loan.Book.AvailableCopies++;
             return true;
         }
 
+        /// <summary>
+        /// Returnerer alle aktive utlån.
+        /// </summary>
         public IEnumerable<Loan> GetActiveLoans()
         {
             return Loans.Where(l => l.ReturnDate == null);
         }
 
+        /// <summary>
+        /// Returnerer utlånshistorikk sortert etter dato.
+        /// </summary>
         public IEnumerable<Loan> GetLoanHistory()
         {
             return Loans.OrderByDescending(l => l.LoanDate);
         }
 
+        /// <summary>
+        /// Genererer neste ledige bok-ID.
+        /// </summary>
         public int GetNextBookId()
         {
             if (!Books.Any())
