@@ -3,10 +3,19 @@ using UniversitySystem.UI;
 
 namespace UniversitySystem
 {
+    /// <summary>
+    /// Startpunkt for konsollapplikasjonen.
+    /// Oppretter datasettet og starter menyen.
+    /// </summary>
     internal class Program
     {
+        /// <summary>
+        /// Hovedmetoden som starter programmet.
+        /// </summary>
+        /// <param name="args">Eventuelle argumenter sendt ved oppstart.</param>
         static void Main(string[] args)
         {
+            // Laster inn eksempeldata slik at systemet kan testes med en gang.
             var manager = SeedData.Initialize();
             var menu = new Menu(manager);
             menu.Run();
