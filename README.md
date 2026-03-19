@@ -270,9 +270,7 @@ This project is intended as a learning project, so the code prioritizes readabil
 
 ## Acknowledgment
 
-README structure inspired by:
-
-https://www.makeareadme.com/
+Parts of the documentation were improved through iterative feedback and AI-assisted writing support, with all final project structure, implementation, and adaptation carried out by the author.
 
 ---
 
