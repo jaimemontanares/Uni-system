@@ -1,64 +1,44 @@
 # Uni-system
 
-C# console application modeling a university administration system for course and library management.
+A simple university administration system built in C# as a learning project.
+The application simulates core university operations such as student enrollment, course management, and library book loans through a console-based interface.
 
 Developed for course assignment **IS-110** (Winter/Spring 2026).
 
 ---
 
-## Features
+## Project Purpose
 
-The application currently supports:
+This project was created to practice object-oriented programming in C# and understand how different parts of a software system can be organized into separate responsibilities.
 
-### User roles
+The goal is to simulate how a university system may manage:
 
-* Student
-* Exchange Student
-* Employee
+* Students
+* Courses
+* Books
+* Book loans
+* Enrollment processes
 
-### Course management
+This project focuses on:
 
-* Create courses
-* Enroll students in courses
-* Remove students from courses
-* List courses and participants
-* Search courses by code or name
-
-### Library management
-
-* Register books
-* Search books
-* Loan books
-* Return books
-* View active loans
-* View loan history
-
-### Console menu
-
-```text
-[1] Opprett kurs
-[2] Meld student til kurs
-[3] Print kurs og deltagere
-[4] Søk på kurs
-[5] Søk på bok
-[6] Lån bok
-[7] Returner bok
-[8] Registrer bok
-[0] Avslutt
-```
+* Classes and objects
+* Lists and collections
+* Methods and business logic
+* Console interaction
+* Basic project architecture
 
 ---
 
 ## Project Structure
 
-```text
+```plaintext
 Uni-system/
 │
 ├── Uni-system.csproj
-├── Program.cs
-├── Custom Educational License
+├── Program.cs                     # Application entry point
+├── Custom Educational License     # License
 │
-├── Models/
+├── Models/                        # Data classes such as Student, Course, Book, Loan
 │   ├── User.cs
 │   ├── Student.cs
 │   ├── ExchangeStudent.cs
@@ -67,35 +47,149 @@ Uni-system/
 │   ├── Book.cs
 │   └── Loan.cs
 │
-├── Services/
+├── Services/                      # Core business logic
 │   └── UniversityManager.cs
 │
-├── UI/
+├── UI/                            # Console menu and user interaction
 │   └── Menu.cs
 │
-└── Data/
+└── Data/                          # Seed data for demo/testing
     └── SeedData.cs
+```
+
+### Folder Responsibilities
+
+| Folder   | Responsibility                                  |
+| -------- | ----------------------------------------------- |
+| Models   | Defines the core entities used in the system    |
+| Services | Handles business rules and operations           |
+| UI       | Displays menus and receives user input          |
+| Data     | Creates sample data when the application starts |
+
+---
+
+## Application Flow
+
+The program starts in `Program.cs`.
+
+### Startup sequence:
+
+```plaintext
+Program.cs
+   ↓
+SeedData.Initialize()
+   ↓
+Menu.Run()
+```
+
+### Explanation
+
+1. `Program.cs` starts the application
+2. `SeedData` creates demo students, books, and courses
+3. `Menu` launches the console menu for user interaction
+
+This makes it possible to test features immediately without entering all data manually.
+
+---
+
+## Features
+The application currently supports:
+### User roles
+* Student
+* Exchange Student
+* Employee
+
+### Student Management
+* Add students
+* Remove students
+* View all students
+
+### Course Management
+* Create courses
+* Enroll students
+* Remove students from courses
+* View enrolled students
+
+### Library Management
+* Register books
+* Loan books
+* Return books
+* View available books
+
+---
+
+## Business Rules
+
+The system applies several basic validation rules:
+
+### Enrollment rules
+
+* A student cannot be enrolled twice in the same course
+* A course cannot exceed maximum capacity
+
+### Library rules
+
+* A book cannot be borrowed if no copies are available
+* Only active loans can be returned
+
+These rules are implemented inside the service and model classes.
+
+---
+## Usage
+
+When the program starts, a console menu appears.
+
+### Console menu
+
+```text
+[1] Opprett kurs                 # create new courses
+[2] Meld student til kurs        # enroll students
+[3] Print kurs og deltagere      # view course participants
+[4] Søk på kurs                  # search courses<
+[5] Søk på bok                   # search books
+[6] Lån bok                      # loan books
+[7] Returner bok                 # return books
+[8] Registrer bok                # register books
+[0] Avslutt                      # Close the application
+```
+
+The project starts with preloaded demo data through `SeedData`.
+
+### Example Console Usage
+
+#### Enroll a student
+
+```plaintext
+1. Course Management
+2. Enroll Student
+Enter student email:
+student@example.com
+Course selected successfully
+Student enrolled
+```
+
+#### Loan a book
+
+```plaintext
+1. Library Management
+2. Loan Book
+Enter student email:
+student@example.com
+Enter book title:
+C# Fundamentals
+Book loan created
 ```
 
 ---
 
-## Installation
+## How to Run
 
-1. Clone the repository:
+### Requirements
 
-```bash
-git clone https://github.com/jaimemontanares/Uni-system.git
-```
+* .NET SDK installed
+* Visual Studio or VS Code
 
-2. Open the project in Visual Studio or Visual Studio Code.
-
-3. Build the project:
-
-```bash
-dotnet build
-```
-
-4. Run the application:
+### Run the project
 
 ```bash
 dotnet run
@@ -103,34 +197,68 @@ dotnet run
 
 ---
 
-## Usage
+## Seed Data Included
 
-When the program starts, a console menu appears.
+The project starts with sample data for easier testing.
 
-You can:
+Example demo data includes:
 
-* create new courses
-* enroll students
-* search courses
-* register books
-* loan and return books
-* view course participants
-* inspect active and historical loans
+* Students
+* Courses
+* Books
 
-The project starts with preloaded demo data through `SeedData`.
+This allows immediate testing of all menu options.
 
 ---
 
-## Requirements
+## Technologies Used
 
-* .NET SDK 8.0 or later
-* Visual Studio 2022 / VS Code recommended
+* C#
+* .NET Console Application
+* Object-Oriented Programming
 
 ---
 
-## License
+## Learning Goals
 
-Educational use permitted. Commercial use requires permission from the author.
+This project helped practice:
+
+* Encapsulation
+* Separation of concerns
+* List handling
+* Method design
+* Basic validation logic
+
+---
+
+## Current Limitations
+
+This project currently uses in-memory data only.
+
+That means:
+
+* No database
+* No file persistence
+* Data resets when application closes
+
+Future improvements may include:
+
+* Database integration
+* Better input validation
+* Search functionality
+* Unit testing
+
+---
+
+## Future Improvements
+
+Possible next steps: Pending...
+
+---
+
+## Documentation Notes
+
+This project is intended as a learning project, so the code prioritizes readability over advanced architecture.
 
 ---
 
