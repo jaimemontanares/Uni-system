@@ -29,6 +29,113 @@ This project focuses on:
 
 ---
 
+## Implementation Roadmap
+
+### Phase 1: Domain model and roles
+- [ ] Add `RoleType` enum
+- [ ] Update `User` with `Username`, `Password`, and `Role`
+- [ ] Refactor `Employee` into a better base class for staff
+- [ ] Add `Lecturer` class
+- [ ] Add `Librarian` class
+- [ ] Update `Student` model if needed
+- [ ] Update `ExchangeStudent` model if needed
+- [ ] Update `Course` with `LecturerId` and `Syllabus`
+- [ ] Add `CourseEnrollment` model for student-course relationship and grades
+- [ ] Review `Book` model
+- [ ] Review `Loan` model
+
+### Phase 2: Services and business logic
+- [ ] Add `UserService`
+- [ ] Add `AuthService`
+- [ ] Add `CourseService`
+- [ ] Add `LibraryService`
+- [ ] Reduce responsibility in `UniversityManager`
+- [ ] Ensure course code cannot be duplicated
+- [ ] Ensure course name cannot be duplicated
+- [ ] Ensure student cannot enroll in same course twice
+- [ ] Ensure course capacity is respected
+- [ ] Ensure only assigned lecturer can register syllabus
+- [ ] Ensure only assigned lecturer can set grades
+- [ ] Ensure books cannot be borrowed when no copies are available
+- [ ] Ensure books can only be returned if there is an active loan
+
+### Phase 3: Authentication and registration
+- [ ] Add startup flow for existing or new user
+- [ ] Add login with username and password
+- [ ] Add registration for new users
+- [ ] Validate empty username/password
+- [ ] Prevent duplicate usernames
+- [ ] Return correct user after successful login
+
+### Phase 4: Role-based menus
+- [ ] Create `Application` or `MenuRouter`
+- [ ] Create `StartMenu`
+- [ ] Create `StudentMenu`
+- [ ] Create `LecturerMenu`
+- [ ] Create `LibrarianMenu`
+- [ ] Move input validation out of large menu logic
+- [ ] Add `InputHelper`
+
+### Phase 5: Student features
+- [ ] Show all available courses
+- [ ] Enroll in a course
+- [ ] Unenroll from a course
+- [ ] View enrolled courses
+- [ ] View grades
+- [ ] Search books
+- [ ] Borrow books
+- [ ] Return books
+
+### Phase 6: Lecturer features
+- [ ] Create course
+- [ ] Search courses
+- [ ] Search books
+- [ ] Borrow books
+- [ ] Return books
+- [ ] Register syllabus for owned course
+- [ ] Set grade for students in owned course
+
+### Phase 7: Librarian features
+- [ ] Register books
+- [ ] Search books
+- [ ] View active loans
+- [ ] View loan history
+
+### Phase 8: Seed data and startup
+- [ ] Update `SeedData` with test users
+- [ ] Add at least one student
+- [ ] Add at least one exchange student
+- [ ] Add at least one lecturer
+- [ ] Add at least one librarian
+- [ ] Add example courses
+- [ ] Add example books
+
+### Phase 9: Error handling and quality
+- [ ] Validate menu input
+- [ ] Validate numeric input
+- [ ] Validate required text input
+- [ ] Handle missing users
+- [ ] Handle missing books
+- [ ] Handle missing courses
+- [ ] Show clear console messages
+- [ ] Refactor overly large classes
+- [ ] Keep UI free from business logic
+
+### Phase 10: Unit tests
+- [ ] Add test project if missing
+- [ ] Add test: student cannot enroll in same course twice
+- [ ] Add test: duplicate course code is rejected
+- [ ] Add test: lecturer cannot grade course they do not teach
+- [ ] Add test: book cannot be borrowed when unavailable
+
+### Phase 11: Documentation
+- [ ] Update README with login flow
+- [ ] Update README with role-based features
+- [ ] Update README with course rules
+- [ ] Update README with library rules
+- [ ] Update README with testing overview
+- [ ] Update README with final project structure
+
 ## Project Structure
 
 ```plaintext
