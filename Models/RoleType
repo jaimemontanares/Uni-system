@@ -1,0 +1,11 @@
+namespace Uni_system.Models
+{
+  puplic enum RoleType
+  {
+    Student,
+    ExchangeStudent,
+    Lecturer,
+    Librarian,
+    Admin
+  }
+}
