@@ -21,8 +21,18 @@ namespace UniversitySystem.Models
         /// <param name="employeeId">Ansattens unike ID.</param>
         /// <param name="position">Stillingsbetegnelse.</param>
         /// <param name="department">Avdelingstilknytning.</param>
-        public Employee(string name, string email, string employeeId, string position, string department)
-            : base(name, email)
+        ///Ny feature trenger bedre kommentar 01.04.26!
+        public Employee(
+            string id,
+            string employeeId,
+            string name,
+            string email,
+            string username,
+            string password,
+            RoleType role,
+            string position,
+            string department)
+            : base(id, name, email, username, password, role)
         {
             EmployeeID = employeeId;
             Position = position;
