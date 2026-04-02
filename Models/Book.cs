@@ -7,7 +7,7 @@ namespace UniversitySystem.Models
     public class Book
     {
         // Unik identifikator for boka.
-        public int Id { get; set; }
+        public string Id { get; set; }
         // Boktittel.
         public string Title { get; set; }
         // Forfatter av boka.
@@ -18,5 +18,14 @@ namespace UniversitySystem.Models
         public int TotalCopies { get; set; }
         // Antall eksemplarer som er tilgjengelige for utlån akkurat nå.
         public int AvailableCopies { get; set; }
+
+        public Book(string id, string title, string author, int totalCopies) // mangler kommentar 02.04.26
+        {
+            Id = id;
+            Title = title;
+            Author = author;
+            TotalCopies = totalCopies;
+            AvailableCopies = totalCopies;
+        }
     }
 }
