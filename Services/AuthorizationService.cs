@@ -1,79 +1,93 @@
-namespace UniversitySystem.Models;
+using UniversitySystem.Models;
 
 namespace UniversitySystem.Services
 {
     /// <summary>
-    /// Serviceklasse som håndterer all logikk relatert til brukere.
+    /// Service for autentisering og registrering av brukere.
     /// Ansvar:
-    /// - Registrering av brukere
-    /// - Oppslag (ID, brukernavn, e-post)
-    /// - Validering (f.eks. unike brukernavn)
+    /// - Registrere nye brukere
+    /// - Håndtere innlogging
     /// </summary>
-    public class UserService
+    public class AuthService
     {
-        // Intern liste over alle brukere i systemet
-        private readonly List<User> _users = new();
+        private readonly UserService _userService;
 
         /// <summary>
-        /// Legger til en ny bruker i systemet.
-        /// Returnerer false hvis brukernavn allerede finnes.
+        /// Dependency injection av UserService.
         /// </summary>
-        public bool AddUser(User user)
+        public AuthService(UserService userService)
         {
-            // Beskytter mot null-referanse
-            if (user == null)
-                throw new ArgumentNullException(nameof(user));
+            _userService = userService ?? throw new ArgumentNullException(nameof(userService));
+        }
 
-            // Hindrer duplikate brukernavn
-            if (UsernameExists(user.Username))
+        /// <summary>
+        /// Registrerer en ny student.
+        /// Returnerer false med feilmelding hvis validering feiler.
+        /// </summary>
+        public bool RegisterStudent(
+            string id,
+            string studentId,
+            string name,
+            string email,
+            string username,
+            string password,
+            out string message)
+        {
+            // Valider input
+            if (string.IsNullOrWhiteSpace(name) ||
+                string.IsNullOrWhiteSpace(email) ||
+                string.IsNullOrWhiteSpace(username) ||
+                string.IsNullOrWhiteSpace(password))
+            {
+                message = "Navn, e-post, brukernavn og passord må fylles ut.";
                 return false;
+            }
 
-            _users.Add(user);
+            // Sjekk om brukernavn allerede finnes
+            if (_userService.UsernameExists(username))
+            {
+                message = "Brukernavnet finnes allerede.";
+                return false;
+            }
+
+            var student = new Student(id, studentId, name, email, username, password);
+
+            // Viktig: bruk returverdi fra UserService
+            bool success = _userService.AddUser(student);
+
+            if (!success)
+            {
+                message = "Kunne ikke registrere bruker.";
+                return false;
+            }
+
+            message = "Student registrert.";
             return true;
         }
 
         /// <summary>
-        /// Returnerer alle brukere (read-only kopi for å beskytte intern liste).
+        /// Logger inn en bruker basert på brukernavn og passord.
+        /// Returnerer null hvis login feiler.
         /// </summary>
-        public List<User> GetAllUsers()
+        public User? Login(string username, string password)
         {
-            return new List<User>(_users);
-        }
+            // Enkel input-validering
+            if (string.IsNullOrWhiteSpace(username) ||
+                string.IsNullOrWhiteSpace(password))
+            {
+                return null;
+            }
 
-        /// <summary>
-        /// Finner bruker basert på unik ID.
-        /// Returnerer null hvis ikke funnet.
-        /// </summary>
-        public User? FindById(string id)
-        {
-            return _users.FirstOrDefault(u => u.Id == id);
-        }
+            var user = _userService.FindByUsername(username);
 
-        /// <summary>
-        /// Finner bruker basert på brukernavn (case-insensitive).
-        /// </summary>
-        public User? FindByUsername(string username)
-        {
-            return _users.FirstOrDefault(u =>
-                u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
-        }
+            if (user == null)
+                return null;
 
-        /// <summary>
-        /// Finner bruker basert på e-post (case-insensitive).
-        /// </summary>
-        public User? FindByEmail(string email)
-        {
-            return _users.FirstOrDefault(u =>
-                u.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
-        }
+            // NB: Passord lagres i klartekst (kun for demo/prosjekt)
+            if (user.Password != password)
+                return null;
 
-        /// <summary>
-        /// Sjekker om et brukernavn allerede eksisterer i systemet.
-        /// </summary>
-        public bool UsernameExists(string username)
-        {
-            return _users.Any(u =>
-                u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
+            return user;
         }
     }
 }
