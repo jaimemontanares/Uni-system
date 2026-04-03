@@ -1,4 +1,4 @@
-namespace Uni_system.Models
+namespace UniversitySystem.Models
 {
   public class Librarian : Employee
   {
