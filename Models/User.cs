@@ -1,53 +1,40 @@
 namespace UniversitySystem.Models
 {
     /// <summary>
-    /// Abstrakt baseklasse for alle brukertyper i systemet.
-    /// Inneholder felles egenskaper som navn og e-postadresse.
+    /// Abstrakt baseklasse for alle brukere i systemet.
+    /// Inneholder felles identitet, innloggingsinformasjon og rolle.
     /// </summary>
     public abstract class User
     {
-        public string Id { get; set; } //ny --> trenger bedre kommentar
-        
-        // Navn på brukeren.
+        /// <summary>
+        /// Intern unik ID brukt i systemet.
+        /// </summary>
+        public string Id { get; set; }
+    
+        /// <summary>
+        /// Fullt navn på brukeren.
+        /// </summary>
         public string Name { get; set; }
-        
-        // E-post brukes som unik identifikator i systemet.
+    
+        /// <summary>
+        /// E-postadresse til brukeren.
+        /// </summary>
         public string Email { get; set; }
-
-        public string Username { get; set; } //ny --> trenger bedre kommentar
-        
-        public string Password { get; set; } //ny --> trenger bedre kommentar
-        
-        public RoleType Role { get; protected set; } //ny --> trenger bedre kommentar
-
+    
         /// <summary>
-        /// Må forbedre kommentar!
+        /// Brukernavn brukt ved innlogging.
         /// </summary>
-        /// <param name="name">Brukerens navn.</param>
-        /// <param name="email">Brukerens e-postadresse.</param>
-        protected User(            
-            string id,
-            string name,
-            string email,
-            string username,
-            string password,
-            RoleType role)
-        {
-            Id = id;
-            Name = name;
-            Email = email;
-            Username = username;
-            Password = password;
-            Role = role;
-        }
-        
+        public string Username { get; set; }
+    
         /// <summary>
-        /// Returnerer en lesbar tekstrepresentasjon av brukeren. 
-        /// Må dette forbedres 01.04.26?
+        /// Passord brukt ved innlogging.
+        /// I en produksjonsløsning bør dette lagres som hash, ikke klartekst.
         /// </summary>
-        public override string ToString()
-        {
-            return $"{Name} ({Email})";
-        }
+        public string Password { get; set; }
+    
+        /// <summary>
+        /// Brukerens rolle i systemet.
+        /// </summary>
+        public RoleType Role { get; protected set; }
     }
 }
