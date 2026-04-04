@@ -1,5 +1,4 @@
 using UniversitySystem.Data;
-using UniversitySystem.Services;
 using UniversitySystem.UI;
 
 namespace UniversitySystem
@@ -16,11 +15,8 @@ namespace UniversitySystem
         /// <param name="args">Eventuelle argumenter sendt ved oppstart.</param>
         static void Main(string[] args)
         {
-            // Oppretter systemets sentrale tjenester
-            var manager = new UniversityManager();
-
             // Laster inn eksempeldata slik at systemet kan testes med en gang
-            SeedData.Initialize(manager);
+            var manager = SeedData.Initialize();
 
             // Starter menyen
             var menu = new Menu(manager);
