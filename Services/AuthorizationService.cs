@@ -6,11 +6,11 @@ namespace UniversitySystem.Services
     /// Håndterer registrering og innlogging av brukere.
     /// Holder autentiseringslogikk adskilt fra UI og øvrig domenelogikk.
     /// </summary>
-    public class AuthService
+    public class AuthorizationService
     {
         private readonly UserService _userService;
 
-        public AuthService(UserService userService)
+        public AuthorizationService(UserService userService)
         {
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
         }
