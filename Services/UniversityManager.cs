@@ -33,7 +33,7 @@ namespace UniversitySystem.Services
         public UniversityManager()
         {
             UserService = new UserService();
-            AuthService = new AuthService(UserService);
+            AuthorizationService = new AuthorizationService(UserService);
             CourseService = new CourseService(UserService);
             LibraryService = new LibraryService(UserService);
         }
