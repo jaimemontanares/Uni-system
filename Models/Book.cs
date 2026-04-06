@@ -1,4 +1,4 @@
-nnamespace UniversitySystem.Models
+namespace UniversitySystem.Models
 {
     /// <summary>
     /// Representerer en bok i biblioteket.
