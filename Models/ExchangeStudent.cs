@@ -4,40 +4,43 @@ namespace UniversitySystem.Models
 {
     /// <summary>
     /// Representerer en utvekslingsstudent.
-    /// Arver fra Student og inneholder ekstra informasjon om hjemuniversitet og utvekslingsperiode.
     /// </summary>
     public class ExchangeStudent : Student
     {
-        // Universitetet studenten kommer fra.
-        public string HomeUniversity { get; set; }
-        // Landet studenten er registrert fra.
-        public string Country { get; set; }
-        // Startdato for utvekslingsoppholdet.
-        public DateTime ExchangePeriodFrom { get; set; }
-        // Sluttdato for utvekslingsoppholdet.
-        public DateTime ExchangePeriodTo { get; set; }
-        
         /// <summary>
-        /// Oppretter en ny utvekslingsstudent med grunnleggende studentinformasjon
-        /// samt informasjon om hjemuniversitet og opprinnelsesland.
+        /// Universitetet studenten kommer fra.
         /// </summary>
-        /// NY Features --> bedre kommentar 01.04.26!
-        /// <param name="name">Studentens navn.</param>
-        /// <param name="email">Studentens e-postadresse.</param>
-        /// <param name="studentId">Studentens ID.</param>
-        /// <param name="homeUniversity">Universitetet studenten kommer fra.</param>
-        /// <param name="country">Studentens hjemland.</param>
+        public string HomeUniversity { get; set; }
+
+        /// <summary>
+        /// Landet studenten kommer fra.
+        /// </summary>
+        public string Country { get; set; }
+
+        /// <summary>
+        /// Startdato for utvekslingsperioden.
+        /// </summary>
+        public DateTime PeriodFrom { get; set; }
+
+        /// <summary>
+        /// Sluttdato for utvekslingsperioden.
+        /// </summary>
+        public DateTime PeriodTo { get; set; }
+
+        /// <summary>
+        /// Oppretter en ny utvekslingsstudent.
+        /// </summary>
         public ExchangeStudent(
             string id,
+            string studentId,
             string name,
             string email,
             string username,
             string password,
-            string studentId,
             string homeUniversity,
             string country,
-            DateTime exchangePeriodFrom
-            DateTime exchangePeriodTo)
+            DateTime periodFrom,
+            DateTime periodTo)
             : base(id, studentId, name, email, username, password)
         {
             Role = RoleType.ExchangeStudent;
