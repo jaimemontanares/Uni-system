@@ -1,6 +1,6 @@
 namespace UniversitySystem.Models
 {
-  puplic enum RoleType
+  public enum RoleType
   {
     Student,
     ExchangeStudent,
