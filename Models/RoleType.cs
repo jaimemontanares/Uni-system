@@ -1,11 +1,14 @@
 namespace UniversitySystem.Models
 {
-  public enum RoleType
-  {
-    Student,
-    ExchangeStudent,
-    Lecturer,
-    Librarian,
-    Admin
-  }
+    /// <summary>
+    /// Definerer hvilke roller en bruker kan ha i systemet.
+    /// </summary>
+    public enum RoleType
+    {
+        Student,
+        ExchangeStudent,
+        Lecturer,
+        Librarian,
+        Admin
+    }
 }
