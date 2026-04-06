@@ -1,8 +1,8 @@
 using System;
-using Uni_system.Models;
-using Uni_system.Services;
+using UniversitySystem.Models;
+using UniversitySystem.Services;
 
-namespace Uni_system.Data
+namespace UniversitySystem.Data
 {
     /// <summary>
     /// Oppretter eksempeldata slik at systemet kan testes ved oppstart.
