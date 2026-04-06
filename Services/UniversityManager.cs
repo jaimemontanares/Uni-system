@@ -15,7 +15,7 @@ namespace UniversitySystem.Services
         /// <summary>
         /// Håndterer registrering og innlogging.
         /// </summary>
-        public AuthService AuthService { get; }
+        public AuthorizationService AuthorizationService { get; }
 
         /// <summary>
         /// Håndterer kurs, påmelding, pensum og karakterer.
