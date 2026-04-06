@@ -1,41 +1,57 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace UniversitySystem.Models
 {
     /// <summary>
     /// Representerer et kurs ved universitetet.
-    /// Inneholder informasjon om kursdetaljer.
     /// </summary>
     public class Course
     {
-        // Unik kode for kurset, for eksempel IS-110.
-        public string CourseCode { get; set; }
-        // Navn på kurset.
-        public string CourseName { get; set; }
-        // Antall studiepoeng kurset gir.
-        public int Credits { get; set; }
-        // Maksimalt antall studenter som kan meldes opp.
-        public int MaxStudents { get; set; }
+        /// <summary>
+        /// Unik kurskode, for eksempel IS-110.
+        /// </summary>
+        public string Code { get; set; }
 
+        /// <summary>
+        /// Navn på kurset.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Antall studiepoeng kurset gir.
+        /// </summary>
+        public int Credits { get; set; }
+
+        /// <summary>
+        /// Maksimalt antall studenter som kan meldes på.
+        /// </summary>
+        public int MaxCapacity { get; set; }
+
+        /// <summary>
+        /// Intern bruker-ID til faglæreren som eier kurset.
+        /// </summary>
         public string LecturerId { get; set; }
 
-        public List<string> Syllabus { get; set; }
+        /// <summary>
+        /// Enkel liste over pensumpunkter for kurset.
+        /// </summary>
+        public List<string> Syllabus { get; set; } = new();
 
+        /// <summary>
+        /// Oppretter et nytt kurs.
+        /// </summary>
         public Course(
-            string courseCode,
-            string courseName,
+            string code,
+            string name,
             int credits,
-            int maxStudents,
+            int maxCapacity,
             string lecturerId)
         {
-            CourseCode = corseCode;
-            CourseName = courseName;
+            Code = code;
+            Name = name;
             Credits = credits;
-            MaxStudents = maxStudents;
+            MaxCapacity = maxCapacity;
             LecturerId = lecturerId;
-            Syllasbus = new List<string>();
         }
-
     }
 }
