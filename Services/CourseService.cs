@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UniversitySystem.Models;
 
 namespace UniversitySystem.Services
@@ -13,13 +16,13 @@ namespace UniversitySystem.Services
     /// </summary>
     public class CourseService
     {
-        // Intern liste over alle kurs i systemet
+        // Intern liste over alle kurs i systemet.
         private readonly List<Course> _courses = new();
 
-        // Intern liste over alle påmeldinger mellom studenter og kurs
+        // Intern liste over alle påmeldinger mellom studenter og kurs.
         private readonly List<CourseEnrollment> _enrollments = new();
 
-        // Referanse til UserService for å slå opp brukere og kontrollere roller
+        // Referanse til UserService for å slå opp brukere og kontrollere roller.
         private readonly UserService _userService;
 
         /// <summary>
@@ -50,15 +53,15 @@ namespace UniversitySystem.Services
         /// Finner et kurs basert på kurskode.
         /// Returnerer null hvis kurset ikke finnes.
         /// </summary>
-        public Course? FindCourseByCode(string code)
+        public Course? FindCourseByCode(string courseCode)
         {
-            if (string.IsNullOrWhiteSpace(code))
+            if (string.IsNullOrWhiteSpace(courseCode))
             {
                 return null;
             }
 
             return _courses.FirstOrDefault(c =>
-                c.Code.Equals(code, StringComparison.OrdinalIgnoreCase));
+                c.CourseCode.Equals(courseCode, StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>
@@ -73,8 +76,8 @@ namespace UniversitySystem.Services
 
             return _courses
                 .Where(c =>
-                    c.Code.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
-                    c.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+                    c.CourseCode.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                    c.CourseName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
                 .ToList();
         }
 
@@ -82,14 +85,14 @@ namespace UniversitySystem.Services
         /// Oppretter et nytt kurs dersom input er gyldig og brukeren er faglærer.
         /// </summary>
         public bool CreateCourse(
-            string code,
-            string name,
+            string courseCode,
+            string courseName,
             int credits,
-            int maxCapacity,
+            int maxStudents,
             string lecturerId,
             out string message)
         {
-            if (string.IsNullOrWhiteSpace(code) || string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrWhiteSpace(courseCode) || string.IsNullOrWhiteSpace(courseName))
             {
                 message = "Kurskode og kursnavn må fylles ut.";
                 return false;
@@ -107,33 +110,32 @@ namespace UniversitySystem.Services
                 return false;
             }
 
-            if (maxCapacity <= 0)
+            if (maxStudents <= 0)
             {
-                message = "Maks kapasitet må være større enn 0.";
+                message = "Maks antall studenter må være større enn 0.";
                 return false;
             }
 
             var lecturer = _userService.FindById(lecturerId);
-
             if (lecturer == null || lecturer.Role != RoleType.Lecturer)
             {
                 message = "Kun faglærer kan opprette kurs.";
                 return false;
             }
 
-            if (_courses.Any(c => c.Code.Equals(code, StringComparison.OrdinalIgnoreCase)))
+            if (_courses.Any(c => c.CourseCode.Equals(courseCode, StringComparison.OrdinalIgnoreCase)))
             {
                 message = "Et kurs med denne kurskoden finnes allerede.";
                 return false;
             }
 
-            if (_courses.Any(c => c.Name.Equals(name, StringComparison.OrdinalIgnoreCase)))
+            if (_courses.Any(c => c.CourseName.Equals(courseName, StringComparison.OrdinalIgnoreCase)))
             {
                 message = "Et kurs med dette navnet finnes allerede.";
                 return false;
             }
 
-            var course = new Course(code, name, credits, maxCapacity, lecturerId);
+            var course = new Course(courseCode, courseName, credits, maxStudents, lecturerId);
             _courses.Add(course);
 
             message = "Kurset ble opprettet.";
@@ -152,16 +154,13 @@ namespace UniversitySystem.Services
             }
 
             var user = _userService.FindById(studentId);
-
-            if (user == null ||
-                (user.Role != RoleType.Student && user.Role != RoleType.ExchangeStudent))
+            if (user == null || (user.Role != RoleType.Student && user.Role != RoleType.ExchangeStudent))
             {
                 message = "Kun studenter kan meldes på kurs.";
                 return false;
             }
 
             var course = FindCourseByCode(courseCode);
-
             if (course == null)
             {
                 message = "Kurset finnes ikke.";
@@ -181,14 +180,13 @@ namespace UniversitySystem.Services
             int currentEnrollmentCount = _enrollments.Count(e =>
                 e.CourseCode.Equals(courseCode, StringComparison.OrdinalIgnoreCase));
 
-            if (currentEnrollmentCount >= course.MaxCapacity)
+            if (currentEnrollmentCount >= course.MaxStudents)
             {
                 message = "Kurset er fullt.";
                 return false;
             }
 
             _enrollments.Add(new CourseEnrollment(studentId, courseCode));
-
             message = "Studenten ble meldt på kurset.";
             return true;
         }
@@ -215,7 +213,6 @@ namespace UniversitySystem.Services
             }
 
             _enrollments.Remove(enrollment);
-
             message = "Studenten ble meldt av kurset.";
             return true;
         }
@@ -231,7 +228,7 @@ namespace UniversitySystem.Services
                 .ToList();
 
             return _courses
-                .Where(c => courseCodes.Contains(c.Code))
+                .Where(c => courseCodes.Contains(c.CourseCode))
                 .ToList();
         }
 
@@ -274,15 +271,13 @@ namespace UniversitySystem.Services
             string syllabusItem,
             out string message)
         {
-            if (string.IsNullOrWhiteSpace(lecturerId) ||
-                string.IsNullOrWhiteSpace(courseCode))
+            if (string.IsNullOrWhiteSpace(lecturerId) || string.IsNullOrWhiteSpace(courseCode))
             {
                 message = "Faglærer-ID og kurskode må fylles ut.";
                 return false;
             }
 
             var course = FindCourseByCode(courseCode);
-
             if (course == null)
             {
                 message = "Kurset finnes ikke.";
@@ -311,7 +306,6 @@ namespace UniversitySystem.Services
             }
 
             course.Syllabus.Add(syllabusItem);
-
             message = "Pensum registrert.";
             return true;
         }
@@ -336,7 +330,6 @@ namespace UniversitySystem.Services
             }
 
             var course = FindCourseByCode(courseCode);
-
             if (course == null)
             {
                 message = "Kurset finnes ikke.";
@@ -360,7 +353,6 @@ namespace UniversitySystem.Services
             }
 
             enrollment.Grade = grade;
-
             message = "Karakter satt.";
             return true;
         }
