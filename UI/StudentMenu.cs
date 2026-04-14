@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using UniversitySystem.Models;
 using UniversitySystem.Services;
 
@@ -12,12 +14,20 @@ namespace UniversitySystem.UI
         private readonly UniversityManager _manager;
         private readonly User _currentUser;
 
+        /// <summary>
+        /// Oppretter en ny studentmeny.
+        /// </summary>
+        /// <param name="manager">Systemets tjenestesamler.</param>
+        /// <param name="currentUser">Innlogget bruker.</param>
         public StudentMenu(UniversityManager manager, User currentUser)
         {
             _manager = manager ?? throw new ArgumentNullException(nameof(manager));
             _currentUser = currentUser ?? throw new ArgumentNullException(nameof(currentUser));
         }
 
+        /// <summary>
+        /// Starter hovedløkken for studentmenyen.
+        /// </summary>
         public void Run()
         {
             bool running = true;
@@ -43,27 +53,35 @@ namespace UniversitySystem.UI
                     case 1:
                         ShowAllCourses();
                         break;
+
                     case 2:
                         EnrollInCourse();
                         break;
+
                     case 3:
                         UnenrollFromCourse();
                         break;
+
                     case 4:
                         ShowMyCourses();
                         break;
+
                     case 5:
                         ShowMyGrades();
                         break;
+
                     case 6:
                         SearchBooks();
                         break;
+
                     case 7:
                         BorrowBook();
                         break;
+
                     case 8:
                         ReturnBook();
                         break;
+
                     case 0:
                         running = false;
                         break;
@@ -71,6 +89,9 @@ namespace UniversitySystem.UI
             }
         }
 
+        /// <summary>
+        /// Viser alle registrerte kurs.
+        /// </summary>
         private void ShowAllCourses()
         {
             Console.Clear();
@@ -87,12 +108,16 @@ namespace UniversitySystem.UI
 
             foreach (var course in courses)
             {
-                Console.WriteLine($"{course.Code} | {course.Name} | Studiepoeng: {course.Credits} | Maks: {course.MaxCapacity}");
+                Console.WriteLine(
+                    $"{course.CourseCode} | {course.CourseName} | Studiepoeng: {course.Credits} | Maks: {course.MaxStudents}");
             }
 
             InputHelper.Pause();
         }
 
+        /// <summary>
+        /// Melder innlogget student på et kurs.
+        /// </summary>
         private void EnrollInCourse()
         {
             Console.Clear();
@@ -100,12 +125,18 @@ namespace UniversitySystem.UI
 
             string courseCode = InputHelper.ReadRequiredString("Kurskode: ");
 
-            bool success = _manager.CourseService.EnrollStudent(_currentUser.Id, courseCode, out string message);
+            bool success = _manager.CourseService.EnrollStudent(
+                _currentUser.Id,
+                courseCode,
+                out string message);
 
             Console.WriteLine(message);
             InputHelper.Pause();
         }
 
+        /// <summary>
+        /// Melder innlogget student av et kurs.
+        /// </summary>
         private void UnenrollFromCourse()
         {
             Console.Clear();
@@ -113,12 +144,18 @@ namespace UniversitySystem.UI
 
             string courseCode = InputHelper.ReadRequiredString("Kurskode: ");
 
-            bool success = _manager.CourseService.UnenrollStudent(_currentUser.Id, courseCode, out string message);
+            bool success = _manager.CourseService.UnenrollStudent(
+                _currentUser.Id,
+                courseCode,
+                out string message);
 
             Console.WriteLine(message);
             InputHelper.Pause();
         }
 
+        /// <summary>
+        /// Viser kursene innlogget student er meldt på.
+        /// </summary>
         private void ShowMyCourses()
         {
             Console.Clear();
@@ -135,12 +172,15 @@ namespace UniversitySystem.UI
 
             foreach (var course in courses)
             {
-                Console.WriteLine($"{course.Code} | {course.Name}");
+                Console.WriteLine($"{course.CourseCode} | {course.CourseName}");
             }
 
             InputHelper.Pause();
         }
 
+        /// <summary>
+        /// Viser karakterene til innlogget student.
+        /// </summary>
         private void ShowMyGrades()
         {
             Console.Clear();
@@ -157,13 +197,19 @@ namespace UniversitySystem.UI
 
             foreach (var enrollment in enrollments)
             {
-                string gradeText = string.IsNullOrWhiteSpace(enrollment.Grade) ? "Ikke satt" : enrollment.Grade;
+                string gradeText = string.IsNullOrWhiteSpace(enrollment.Grade)
+                    ? "Ikke satt"
+                    : enrollment.Grade;
+
                 Console.WriteLine($"{enrollment.CourseCode} | Karakter: {gradeText}");
             }
 
             InputHelper.Pause();
         }
 
+        /// <summary>
+        /// Søker etter bøker basert på tittel eller forfatter.
+        /// </summary>
         private void SearchBooks()
         {
             Console.Clear();
@@ -181,31 +227,46 @@ namespace UniversitySystem.UI
 
             foreach (var book in books)
             {
-                Console.WriteLine($"{book.Id} | {book.Title} | {book.Author} | Tilgjengelig: {book.AvailableCopies}/{book.TotalCopies}");
+                Console.WriteLine(
+                    $"{book.Id} | {book.Title} | {book.Author} | Tilgjengelig: {book.AvailableCopies}/{book.TotalCopies}");
             }
 
             InputHelper.Pause();
         }
 
+        /// <summary>
+        /// Lar innlogget student låne en bok.
+        /// </summary>
         private void BorrowBook()
         {
             Console.Clear();
             Console.WriteLine("=== LÅN BOK ===");
 
             string bookId = InputHelper.ReadRequiredString("Bok-ID: ");
-            bool success = _manager.LibraryService.BorrowBook(_currentUser.Id, bookId, out string message);
+
+            bool success = _manager.LibraryService.BorrowBook(
+                _currentUser.Id,
+                bookId,
+                out string message);
 
             Console.WriteLine(message);
             InputHelper.Pause();
         }
 
+        /// <summary>
+        /// Lar innlogget student levere tilbake en bok.
+        /// </summary>
         private void ReturnBook()
         {
             Console.Clear();
             Console.WriteLine("=== LEVER BOK TILBAKE ===");
 
             string bookId = InputHelper.ReadRequiredString("Bok-ID: ");
-            bool success = _manager.LibraryService.ReturnBook(_currentUser.Id, bookId, out string message);
+
+            bool success = _manager.LibraryService.ReturnBook(
+                _currentUser.Id,
+                bookId,
+                out string message);
 
             Console.WriteLine(message);
             InputHelper.Pause();
