@@ -16,11 +16,11 @@ namespace UniversitySystem
         /// <param name="args">Eventuelle argumenter sendt ved oppstart.</param>
         static void Main(string[] args)
         {
-            var manager = new UniversityManager();
-            SeedData.Initialize(manager);
-
-            var startMenu = new StartMenu(manager);
-            startMenu.Run();
+        var manager = new UniversityManager();
+        SeedData.Initialize(manager);
+        
+        var startMenu = new StartMenu(manager);
+        startMenu.Run();
         }
     }
 }
