@@ -2,23 +2,24 @@ namespace UniversitySystem.Models
 {
     /// <summary>
     /// Representerer en ansatt ved universitetet.
+    /// Denne klassen brukes som base for faglærer og bibliotekar.
     /// </summary>
     public class Employee : User
     {
         /// <summary>
-        /// Ansattens unike ansattnummer.
+        /// Ansattnummer for den ansatte.
         /// </summary>
         public string EmployeeId { get; set; }
 
         /// <summary>
-        /// Stillingsbetegnelse, for eksempel faglærer eller bibliotekansatt.
-        /// </summary>
-        public string Position { get; set; }
-
-        /// <summary>
-        /// Avdelingen den ansatte tilhører.
+        /// Avdeling den ansatte tilhører.
         /// </summary>
         public string Department { get; set; }
+
+        /// <summary>
+        /// Stilling eller rollebeskrivelse.
+        /// </summary>
+        public string Position { get; set; }
 
         /// <summary>
         /// Oppretter en ny ansatt.
@@ -30,14 +31,14 @@ namespace UniversitySystem.Models
             string email,
             string username,
             string password,
-            RoleType role,
+            string department,
             string position,
-            string department)
+            RoleType role)
             : base(id, name, email, username, password, role)
         {
             EmployeeId = employeeId;
-            Position = position;
             Department = department;
+            Position = position;
         }
     }
 }
