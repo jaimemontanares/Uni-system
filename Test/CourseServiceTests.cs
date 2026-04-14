@@ -13,30 +13,35 @@ namespace UniversitySystem.Tests
             var userService = new UserService();
             var courseService = new CourseService(userService);
 
-            var lecturer = new Lecturer("U1", "L100", "Test Lecturer", "lecturer@test.no", "IT", "Professor")
-            {
-                Username = "lecturer",
-                Password = "1234"
-            };
+            var lecturer = new Lecturer(
+                "U1",
+                "L100",
+                "Test Lecturer",
+                "lecturer@test.no",
+                "lecturer",
+                "1234",
+                "IT");
 
-            var student = new Student("U2", "S1001", "Test Student", "student@test.no")
-            {
-                Username = "student",
-                Password = "1234"
-            };
+            var student = new Student(
+                "U2",
+                "S1001",
+                "Test Student",
+                "student@test.no",
+                "student",
+                "1234");
 
             userService.AddUser(lecturer);
             userService.AddUser(student);
 
-            courseService.CreateCourse("IS110", "Programmering", 10, 30, lecturer.EmployeeId, out _);
-            courseService.EnrollStudent(student.StudentId, "IS110", out _);
+            courseService.CreateCourse("IS110", "Programmering", 10, 30, lecturer.Id, out _);
+            courseService.EnrollStudent(student.Id, "IS110", out _);
 
             // Act
-            bool result = courseService.EnrollStudent(student.StudentId, "IS110", out string message);
+            bool result = courseService.EnrollStudent(student.Id, "IS110", out string message);
 
             // Assert
             Assert.False(result);
-            Assert.Equal("Studenten er allerede meldt på dette kurset.", message);
+            Assert.Equal("Studenten er allerede meldt på kurset.", message);
         }
 
         [Fact]
@@ -46,18 +51,27 @@ namespace UniversitySystem.Tests
             var userService = new UserService();
             var courseService = new CourseService(userService);
 
-            var lecturer = new Lecturer("U1", "L100", "Test Lecturer", "lecturer@test.no", "IT", "Professor")
-            {
-                Username = "lecturer",
-                Password = "1234"
-            };
+            var lecturer = new Lecturer(
+                "U1",
+                "L100",
+                "Test Lecturer",
+                "lecturer@test.no",
+                "lecturer",
+                "1234",
+                "IT");
 
             userService.AddUser(lecturer);
 
-            courseService.CreateCourse("IS110", "Programmering", 10, 30, lecturer.EmployeeId, out _);
+            courseService.CreateCourse("IS110", "Programmering", 10, 30, lecturer.Id, out _);
 
             // Act
-            bool result = courseService.CreateCourse("IS110", "OOP", 10, 25, lecturer.EmployeeId, out string message);
+            bool result = courseService.CreateCourse(
+                "IS110",
+                "Objektorientert programmering",
+                10,
+                25,
+                lecturer.Id,
+                out string message);
 
             // Assert
             Assert.False(result);
