@@ -1,46 +1,45 @@
 namespace UniversitySystem.Models
 {
     /// <summary>
-    /// Abstrakt baseklasse for alle brukere i systemet.
-    /// Inneholder felles identitet, innloggingsinformasjon og rolle.
+    /// Representerer en generell bruker i universitetssystemet.
+    /// Denne klassen fungerer som basisklasse for studenter og ansatte.
     /// </summary>
-    public abstract class User
+    public class User
     {
         /// <summary>
-        /// Intern unik ID brukt i systemet.
+        /// Intern bruker-ID.
         /// </summary>
         public string Id { get; set; }
 
         /// <summary>
-        /// Fullt navn på brukeren.
+        /// Brukerens fulle navn.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// E-postadresse til brukeren.
+        /// Brukerens e-postadresse.
         /// </summary>
         public string Email { get; set; }
 
         /// <summary>
-        /// Brukernavn brukt ved innlogging.
+        /// Brukerens innloggingsnavn.
         /// </summary>
         public string Username { get; set; }
 
         /// <summary>
-        /// Passord brukt ved innlogging.
-        /// I en ekte løsning bør dette hashes.
+        /// Brukerens passord.
         /// </summary>
         public string Password { get; set; }
 
         /// <summary>
-        /// Rollen avgjør hvilken meny og funksjonalitet brukeren får tilgang til.
+        /// Rollen som bestemmer hvilken funksjonalitet brukeren har tilgang til.
         /// </summary>
-        public RoleType Role { get; protected set; }
+        public RoleType Role { get; set; }
 
         /// <summary>
-        /// Oppretter en ny bruker med felles basisinformasjon.
+        /// Oppretter en ny bruker.
         /// </summary>
-        protected User(
+        public User(
             string id,
             string name,
             string email,
