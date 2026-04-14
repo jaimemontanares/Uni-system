@@ -1,7 +1,7 @@
 namespace UniversitySystem.Models
 {
     /// <summary>
-    /// Representerer en faglærer.
+    /// Representerer en faglærer ved universitetet.
     /// </summary>
     public class Lecturer : Employee
     {
@@ -23,9 +23,9 @@ namespace UniversitySystem.Models
                 email,
                 username,
                 password,
-                RoleType.Lecturer,
+                department,
                 "Faglærer",
-                department)
+                RoleType.Lecturer)
         {
         }
     }
