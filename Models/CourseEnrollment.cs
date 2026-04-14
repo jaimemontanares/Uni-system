@@ -1,9 +1,7 @@
-using System;
-
 namespace UniversitySystem.Models
 {
     /// <summary>
-    /// Representerer en påmelding mellom student og kurs.
+    /// Representerer en påmelding av en student til et kurs.
     /// </summary>
     public class CourseEnrollment
     {
@@ -18,13 +16,7 @@ namespace UniversitySystem.Models
         public string CourseCode { get; set; }
 
         /// <summary>
-        /// Tidspunktet påmeldingen ble registrert.
-        /// </summary>
-        public DateTime EnrollmentDate { get; set; }
-
-        /// <summary>
-        /// Karakteren studenten har fått i kurset.
-        /// Null betyr at karakter ikke er satt ennå.
+        /// Eventuell karakter studenten har fått i kurset.
         /// </summary>
         public string? Grade { get; set; }
 
@@ -35,7 +27,7 @@ namespace UniversitySystem.Models
         {
             StudentId = studentId;
             CourseCode = courseCode;
-            EnrollmentDate = DateTime.Now;
+            Grade = null;
         }
     }
 }
