@@ -10,12 +10,12 @@ namespace UniversitySystem.Models
         /// <summary>
         /// Unik kurskode, for eksempel IS-110.
         /// </summary>
-        public string Code { get; set; }
+        public string CourseCode { get; set; }
 
         /// <summary>
         /// Navn på kurset.
         /// </summary>
-        public string Name { get; set; }
+        public string CourseName { get; set; }
 
         /// <summary>
         /// Antall studiepoeng kurset gir.
@@ -25,7 +25,7 @@ namespace UniversitySystem.Models
         /// <summary>
         /// Maksimalt antall studenter som kan meldes på.
         /// </summary>
-        public int MaxCapacity { get; set; }
+        public int MaxStudents { get; set; }
 
         /// <summary>
         /// Intern bruker-ID til faglæreren som eier kurset.
@@ -35,23 +35,24 @@ namespace UniversitySystem.Models
         /// <summary>
         /// Enkel liste over pensumpunkter for kurset.
         /// </summary>
-        public List<string> Syllabus { get; set; } = new();
+        public List<string> Syllabus { get; set; }
 
         /// <summary>
         /// Oppretter et nytt kurs.
         /// </summary>
         public Course(
-            string code,
-            string name,
+            string courseCode,
+            string courseName,
             int credits,
-            int maxCapacity,
+            int maxStudents,
             string lecturerId)
         {
-            Code = code;
-            Name = name;
+            CourseCode = courseCode;
+            CourseName = courseName;
             Credits = credits;
-            MaxCapacity = maxCapacity;
+            MaxStudents = maxStudents;
             LecturerId = lecturerId;
+            Syllabus = new List<string>();
         }
     }
 }
