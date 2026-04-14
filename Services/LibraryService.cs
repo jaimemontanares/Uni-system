@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UniversitySystem.Models;
 
 namespace UniversitySystem.Services
@@ -12,18 +15,19 @@ namespace UniversitySystem.Services
     /// </summary>
     public class LibraryService
     {
-        // Intern liste over alle bøker i biblioteket
+        // Intern liste over alle bøker i biblioteket.
         private readonly List<Book> _books = new();
 
-        // Intern liste over alle lån i systemet
+        // Intern liste over alle lån i systemet.
         private readonly List<Loan> _loans = new();
 
-        // Referanse til UserService for oppslag og rollekontroll
+        // Referanse til UserService for oppslag og rollekontroll.
         private readonly UserService _userService;
 
         /// <summary>
         /// Oppretter en ny LibraryService.
         /// </summary>
+        /// <param name="userService">Tjeneste for oppslag av brukere og roller.</param>
         public LibraryService(UserService userService)
         {
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
@@ -46,7 +50,7 @@ namespace UniversitySystem.Services
         }
 
         /// <summary>
-        /// Registrerer en ny bok dersom brukeren er bibliotekansatt
+        /// Registrerer en ny bok dersom brukeren er bibliotekar
         /// og input er gyldig.
         /// </summary>
         public bool RegisterBook(
@@ -77,25 +81,25 @@ namespace UniversitySystem.Services
 
             if (totalCopies <= 0)
             {
-                message = "Antall kopier må være større enn 0.";
+                message = "Antall eksemplarer må være større enn 0.";
                 return false;
             }
 
-            if (_books.Any(b => b.Id == id))
+            if (_books.Any(b => b.Id.Equals(id, StringComparison.OrdinalIgnoreCase)))
             {
                 message = "En bok med denne ID-en finnes allerede.";
                 return false;
             }
 
             var librarian = _userService.FindById(librarianId);
-
             if (librarian == null || librarian.Role != RoleType.Librarian)
             {
-                message = "Kun bibliotekansatt kan registrere bøker.";
+                message = "Kun bibliotekar kan registrere bøker.";
                 return false;
             }
 
             _books.Add(new Book(id, title, author, totalCopies));
+
             message = "Boken ble registrert.";
             return true;
         }
@@ -111,7 +115,8 @@ namespace UniversitySystem.Services
                 return null;
             }
 
-            return _books.FirstOrDefault(b => b.Id == bookId);
+            return _books.FirstOrDefault(b =>
+                b.Id.Equals(bookId, StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>
@@ -144,7 +149,6 @@ namespace UniversitySystem.Services
             }
 
             var user = _userService.FindById(userId);
-
             if (user == null)
             {
                 message = "Brukeren finnes ikke.";
@@ -163,7 +167,6 @@ namespace UniversitySystem.Services
             }
 
             var book = FindBookById(bookId);
-
             if (book == null)
             {
                 message = "Boken finnes ikke.";
@@ -172,13 +175,13 @@ namespace UniversitySystem.Services
 
             if (book.AvailableCopies <= 0)
             {
-                message = "Ingen tilgjengelige kopier.";
+                message = "Ingen tilgjengelige eksemplarer.";
                 return false;
             }
 
             bool alreadyBorrowed = _loans.Any(l =>
                 l.UserId == userId &&
-                l.BookId == bookId &&
+                l.BookId.Equals(bookId, StringComparison.OrdinalIgnoreCase) &&
                 l.IsActive);
 
             if (alreadyBorrowed)
@@ -207,7 +210,7 @@ namespace UniversitySystem.Services
 
             var activeLoan = _loans.FirstOrDefault(l =>
                 l.UserId == userId &&
-                l.BookId == bookId &&
+                l.BookId.Equals(bookId, StringComparison.OrdinalIgnoreCase) &&
                 l.IsActive);
 
             if (activeLoan == null)
@@ -217,7 +220,6 @@ namespace UniversitySystem.Services
             }
 
             var book = FindBookById(bookId);
-
             if (book == null)
             {
                 message = "Boken finnes ikke.";
