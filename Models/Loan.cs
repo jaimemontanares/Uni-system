@@ -41,6 +41,7 @@ namespace UniversitySystem.Models
             UserId = userId;
             BookId = bookId;
             LoanDate = DateTime.Now;
+            ReturnDate = null;
         }
 
         /// <summary>
