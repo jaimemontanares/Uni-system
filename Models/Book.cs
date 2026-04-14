@@ -1,37 +1,37 @@
 namespace UniversitySystem.Models
 {
     /// <summary>
-    /// Representerer en bok i biblioteket.
+    /// Representerer en bok i biblioteksystemet.
     /// </summary>
     public class Book
     {
         /// <summary>
-        /// Unik ID for boka.
+        /// Unik ID for boken.
         /// </summary>
         public string Id { get; set; }
 
         /// <summary>
-        /// Boktittel.
+        /// Bokas tittel.
         /// </summary>
         public string Title { get; set; }
 
         /// <summary>
-        /// Forfatter.
+        /// Bokas forfatter.
         /// </summary>
         public string Author { get; set; }
 
         /// <summary>
-        /// Totalt antall eksemplarer av boka.
+        /// Totalt antall eksemplarer av boken.
         /// </summary>
         public int TotalCopies { get; set; }
 
         /// <summary>
-        /// Antall eksemplarer som er tilgjengelige akkurat nå.
+        /// Antall tilgjengelige eksemplarer som kan lånes.
         /// </summary>
         public int AvailableCopies { get; set; }
 
         /// <summary>
-        /// Oppretter en ny bok og setter tilgjengelige eksemplarer lik totalen.
+        /// Oppretter en ny bok.
         /// </summary>
         public Book(string id, string title, string author, int totalCopies)
         {
