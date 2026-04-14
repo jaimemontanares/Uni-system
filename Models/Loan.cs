@@ -4,18 +4,52 @@ namespace UniversitySystem.Models
 {
     /// <summary>
     /// Representerer et utlån av en bok til en bruker.
-    /// Kobler sammen bok, bruker og utlånsperiode.
     /// </summary>
     public class Loan
     {
-        // Boken som er lånt ut.
-        public Book Book { get; set; }
-        // Brukeren som har lånt boka.
-        public User User { get; set; }
-        // Dato for når utlånet ble registrert.
+        /// <summary>
+        /// Intern bruker-ID til låneren.
+        /// </summary>
+        public string UserId { get; set; }
+
+        /// <summary>
+        /// Bok-ID til boka som er lånt ut.
+        /// </summary>
+        public string BookId { get; set; }
+
+        /// <summary>
+        /// Tidspunktet boka ble lånt ut.
+        /// </summary>
         public DateTime LoanDate { get; set; }
-        // Returdato settes når boka leveres tilbake.
-        // Null betyr at utlånet fortsatt er aktivt.
+
+        /// <summary>
+        /// Tidspunktet boka ble levert tilbake.
+        /// Null betyr at lånet fortsatt er aktivt.
+        /// </summary>
         public DateTime? ReturnDate { get; set; }
+
+        /// <summary>
+        /// True når boka fortsatt er ute på lån.
+        /// </summary>
+        public bool IsActive => ReturnDate == null;
+
+        /// <summary>
+        /// Oppretter et nytt lån.
+        /// </summary>
+        public Loan(string userId, string bookId)
+        {
+            UserId = userId;
+            BookId = bookId;
+            LoanDate = DateTime.Now;
+            ReturnDate = null;
+        }
+
+        /// <summary>
+        /// Marker lånet som returnert.
+        /// </summary>
+        public void ReturnBook()
+        {
+            ReturnDate = DateTime.Now;
+        }
     }
 }

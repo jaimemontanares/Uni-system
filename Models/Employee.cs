@@ -2,31 +2,43 @@ namespace UniversitySystem.Models
 {
     /// <summary>
     /// Representerer en ansatt ved universitetet.
-    /// Arver grunnleggende brukerdata fra User og inneholder informasjon om stilling og avdeling.
+    /// Denne klassen brukes som base for faglærer og bibliotekar.
     /// </summary>
     public class Employee : User
     {
-        // Unik identifikator for ansatte i systemet.
-        public string EmployeeID { get; set; }
-        // Ansattes rolle eller stilling ved universitetet.
-        public string Position { get; set; }
-        // Avdelingen den ansatte tilhører.
-        public string Department { get; set; }
-        
         /// <summary>
-        /// Oppretter en ny ansatt med navn, e-post, ansatt-ID, stilling og avdeling.
+        /// Ansattnummer for den ansatte.
         /// </summary>
-        /// <param name="name">Navn på den ansatte.</param>
-        /// <param name="email">E-postadresse.</param>
-        /// <param name="employeeId">Ansattens unike ID.</param>
-        /// <param name="position">Stillingsbetegnelse.</param>
-        /// <param name="department">Avdelingstilknytning.</param>
-        public Employee(string name, string email, string employeeId, string position, string department)
-            : base(name, email)
+        public string EmployeeId { get; set; }
+
+        /// <summary>
+        /// Avdeling den ansatte tilhører.
+        /// </summary>
+        public string Department { get; set; }
+
+        /// <summary>
+        /// Stilling eller rollebeskrivelse.
+        /// </summary>
+        public string Position { get; set; }
+
+        /// <summary>
+        /// Oppretter en ny ansatt.
+        /// </summary>
+        public Employee(
+            string id,
+            string employeeId,
+            string name,
+            string email,
+            string username,
+            string password,
+            string department,
+            string position,
+            RoleType role)
+            : base(id, name, email, username, password, role)
         {
-            EmployeeID = employeeId;
-            Position = position;
+            EmployeeId = employeeId;
             Department = department;
+            Position = position;
         }
     }
 }

@@ -3,26 +3,36 @@ using System.Collections.Generic;
 namespace UniversitySystem.Models
 {
     /// <summary>
-    /// Representerer en student i systemet.
-    /// Arver grunnleggende brukerdata fra User og inneholder studentspesifikke egenskaper.
+    /// Representerer en student ved universitetet.
     /// </summary>
     public class Student : User
     {
-        // Unik identifikator for studenten.
-        public string StudentID { get; set; }
-         // Liste over kurs studenten er meldt opp i.
-        public List<Course> EnrolledCourses { get; set; } = new List<Course>();
+        /// <summary>
+        /// Studentens studentnummer.
+        /// </summary>
+        public string StudentId { get; set; }
 
         /// <summary>
-        /// Oppretter en ny student med navn, e-post og studentnummer.
+        /// Liste over kurskoder studenten er meldt opp i.
+        /// Denne listen kan brukes som enkel oversikt i modellen,
+        /// selv om den faktiske koblingen også håndteres i CourseService.
         /// </summary>
-        /// <param name="name">Studentens navn.</param>
-        /// <param name="email">Studentens e-postadresse.</param>
-        /// <param name="studentId">Studentens unike ID.</param>
-        public Student(string name, string email, string studentId)
-            : base(name, email)
+        public List<string> EnrolledCourseCodes { get; set; }
+
+        /// <summary>
+        /// Oppretter en ny student.
+        /// </summary>
+        public Student(
+            string id,
+            string studentId,
+            string name,
+            string email,
+            string username,
+            string password)
+            : base(id, name, email, username, password, RoleType.Student)
         {
-            StudentID = studentId;
+            StudentId = studentId;
+            EnrolledCourseCodes = new List<string>();
         }
     }
 }

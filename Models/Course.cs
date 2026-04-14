@@ -1,74 +1,58 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace UniversitySystem.Models
 {
     /// <summary>
     /// Representerer et kurs ved universitetet.
-    /// Inneholder informasjon om kursdetaljer og hvilke studenter som er meldt opp.
     /// </summary>
     public class Course
     {
-        // Unik kode for kurset, for eksempel IS-110.
+        /// <summary>
+        /// Unik kurskode, for eksempel IS-110.
+        /// </summary>
         public string CourseCode { get; set; }
-        // Navn på kurset.
+
+        /// <summary>
+        /// Navn på kurset.
+        /// </summary>
         public string CourseName { get; set; }
-        // Antall studiepoeng kurset gir.
+
+        /// <summary>
+        /// Antall studiepoeng kurset gir.
+        /// </summary>
         public int Credits { get; set; }
-        // Maksimalt antall studenter som kan meldes opp.
+
+        /// <summary>
+        /// Maksimalt antall studenter som kan meldes på.
+        /// </summary>
         public int MaxStudents { get; set; }
-        // Liste over studenter som er registrert i kurset.
-        public List<Student> EnrolledStudents { get; set; } = new List<Student>();
 
         /// <summary>
-        /// Melder en student opp i kurset dersom det er ledig plass
-        /// og studenten ikke allerede er registrert.
+        /// Intern bruker-ID til faglæreren som eier kurset.
         /// </summary>
-        /// <param name="student">Studenten som skal meldes opp.</param>
-        /// <returns>True dersom oppmelding lykkes, ellers false.</returns>
-        public bool EnrollStudent(Student student)
-        {
-            if (student == null)
-            {
-                return false;
-            }
-
-            // Hindrer at samme student meldes opp flere ganger.
-            if (EnrolledStudents.Any(s => s.Email == student.Email))
-            {
-                return false;
-            }
-
-            // Sjekker om kurset allerede er fullt.
-            if (EnrolledStudents.Count >= MaxStudents)
-            {
-                return false;
-            }
-
-            EnrolledStudents.Add(student);
-
-            // Legger også kurset til studentens kursliste dersom det mangler.
-            if (!student.EnrolledCourses.Contains(this))
-            {
-                student.EnrolledCourses.Add(this);
-            }
-
-            return true;
-        }
+        public string LecturerId { get; set; }
 
         /// <summary>
-        /// Fjerner en student fra kurset og oppdaterer studentens kursliste.
+        /// Enkel liste over pensumpunkter for kurset.
         /// </summary>
-        /// <param name="student">Studenten som skal fjernes.</param>
-        public void RemoveStudent(Student student)
-        {
-            if (student == null)
-            {
-                return;
-            }
+        public List<string> Syllabus { get; set; }
 
-            EnrolledStudents.Remove(student);
-            student.EnrolledCourses.Remove(this);
+        /// <summary>
+        /// Oppretter et nytt kurs.
+        /// </summary>
+        public Course(
+            string courseCode,
+            string courseName,
+            int credits,
+            int maxStudents,
+            string lecturerId)
+        {
+            CourseCode = courseCode;
+            CourseName = courseName;
+            Credits = credits;
+            MaxStudents = maxStudents;
+            LecturerId = lecturerId;
+            Syllabus = new List<string>();
         }
     }
 }

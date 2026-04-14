@@ -1,34 +1,58 @@
 namespace UniversitySystem.Models
 {
     /// <summary>
-    /// Abstrakt baseklasse for alle brukertyper i systemet.
-    /// Inneholder felles egenskaper som navn og e-postadresse.
+    /// Representerer en generell bruker i universitetssystemet.
+    /// Denne klassen fungerer som basisklasse for studenter og ansatte.
     /// </summary>
-    public abstract class User
+    public class User
     {
-        // Navn på brukeren.
+        /// <summary>
+        /// Intern bruker-ID.
+        /// </summary>
+        public string Id { get; set; }
+
+        /// <summary>
+        /// Brukerens fulle navn.
+        /// </summary>
         public string Name { get; set; }
-        
-        // E-post brukes som unik identifikator i systemet.
+
+        /// <summary>
+        /// Brukerens e-postadresse.
+        /// </summary>
         public string Email { get; set; }
 
         /// <summary>
-        /// Oppretter en ny bruker med navn og e-post.
+        /// Brukerens innloggingsnavn.
         /// </summary>
-        /// <param name="name">Brukerens navn.</param>
-        /// <param name="email">Brukerens e-postadresse.</param>
-        protected User(string name, string email)
+        public string Username { get; set; }
+
+        /// <summary>
+        /// Brukerens passord.
+        /// </summary>
+        public string Password { get; set; }
+
+        /// <summary>
+        /// Rollen som bestemmer hvilken funksjonalitet brukeren har tilgang til.
+        /// </summary>
+        public RoleType Role { get; set; }
+
+        /// <summary>
+        /// Oppretter en ny bruker.
+        /// </summary>
+        public User(
+            string id,
+            string name,
+            string email,
+            string username,
+            string password,
+            RoleType role)
         {
+            Id = id;
             Name = name;
             Email = email;
-        }
-        
-        /// <summary>
-        /// Returnerer en lesbar tekstrepresentasjon av brukeren.
-        /// </summary>
-        public override string ToString()
-        {
-            return $"{Name} ({Email})";
+            Username = username;
+            Password = password;
+            Role = role;
         }
     }
 }
