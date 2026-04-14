@@ -85,18 +85,18 @@ namespace UniversitySystem.Data
         {
             CreateCourseOrThrow(
                 manager,
-                code: "IS110",
-                name: "Objektorientert programmering",
+                courseCode: "IS110",
+                courseName: "Objektorientert programmering",
                 credits: 10,
-                maxCapacity: 30,
+                maxStudents: 30,
                 lecturerId: "U3");
 
             CreateCourseOrThrow(
                 manager,
-                code: "IS200",
-                name: "Databasesystemer",
+                courseCode: "IS200",
+                courseName: "Databasesystemer",
                 credits: 10,
-                maxCapacity: 25,
+                maxStudents: 25,
                 lecturerId: "U3");
         }
 
@@ -137,7 +137,6 @@ namespace UniversitySystem.Data
         private static void AddUserOrThrow(UniversityManager manager, User user, string userDescription)
         {
             bool success = manager.UserService.AddUser(user);
-
             if (!success)
             {
                 throw new InvalidOperationException(
@@ -150,24 +149,24 @@ namespace UniversitySystem.Data
         /// </summary>
         private static void CreateCourseOrThrow(
             UniversityManager manager,
-            string code,
-            string name,
+            string courseCode,
+            string courseName,
             int credits,
-            int maxCapacity,
+            int maxStudents,
             string lecturerId)
         {
             bool success = manager.CourseService.CreateCourse(
-                code: code,
-                name: name,
+                courseCode: courseCode,
+                courseName: courseName,
                 credits: credits,
-                maxCapacity: maxCapacity,
+                maxStudents: maxStudents,
                 lecturerId: lecturerId,
                 out string message);
 
             if (!success)
             {
                 throw new InvalidOperationException(
-                    $"Kunne ikke opprette kurs '{code} - {name}'. Feil: {message}");
+                    $"Kunne ikke opprette kurs '{courseCode} - {courseName}'. Feil: {message}");
             }
         }
 
@@ -193,12 +192,12 @@ namespace UniversitySystem.Data
             if (!success)
             {
                 throw new InvalidOperationException(
-                    $"Kunne ikke registrere bok '{title}' med id '{id}'. Feil: {message}");
+                    $"Kunne ikke registrere bok '{title}'. Feil: {message}");
             }
         }
 
         /// <summary>
-        /// Melder opp en student til et kurs og stopper oppsettet dersom operasjonen feiler.
+        /// Melder en student på et kurs og stopper oppsettet dersom operasjonen feiler.
         /// </summary>
         private static void EnrollStudentOrThrow(
             UniversityManager manager,
@@ -206,14 +205,14 @@ namespace UniversitySystem.Data
             string courseCode)
         {
             bool success = manager.CourseService.EnrollStudent(
-                studentId,
-                courseCode,
+                studentId: studentId,
+                courseCode: courseCode,
                 out string message);
 
             if (!success)
             {
                 throw new InvalidOperationException(
-                    $"Kunne ikke melde student '{studentId}' opp til kurs '{courseCode}'. Feil: {message}");
+                    $"Kunne ikke melde student '{studentId}' på kurs '{courseCode}'. Feil: {message}");
             }
         }
     }
