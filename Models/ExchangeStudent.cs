@@ -4,11 +4,12 @@ namespace UniversitySystem.Models
 {
     /// <summary>
     /// Representerer en utvekslingsstudent.
+    /// Arver fra Student og utvider med informasjon om hjemmeuniversitet og oppholdsperiode.
     /// </summary>
     public class ExchangeStudent : Student
     {
         /// <summary>
-        /// Universitetet studenten kommer fra.
+        /// Navn på studentens hjemmeuniversitet.
         /// </summary>
         public string HomeUniversity { get; set; }
 
@@ -18,12 +19,12 @@ namespace UniversitySystem.Models
         public string Country { get; set; }
 
         /// <summary>
-        /// Startdato for utvekslingsperioden.
+        /// Startdato for utvekslingsoppholdet.
         /// </summary>
         public DateTime PeriodFrom { get; set; }
 
         /// <summary>
-        /// Sluttdato for utvekslingsperioden.
+        /// Sluttdato for utvekslingsoppholdet.
         /// </summary>
         public DateTime PeriodTo { get; set; }
 
@@ -43,11 +44,11 @@ namespace UniversitySystem.Models
             DateTime periodTo)
             : base(id, studentId, name, email, username, password)
         {
-            Role = RoleType.ExchangeStudent;
             HomeUniversity = homeUniversity;
             Country = country;
             PeriodFrom = periodFrom;
             PeriodTo = periodTo;
+            Role = RoleType.ExchangeStudent;
         }
     }
 }
