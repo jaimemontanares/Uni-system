@@ -1,12 +1,12 @@
 namespace UniversitySystem.Models
 {
     /// <summary>
-    /// Representerer en bibliotekansatt.
+    /// Representerer en bibliotekar ved universitetet.
     /// </summary>
     public class Librarian : Employee
     {
         /// <summary>
-        /// Oppretter en ny bibliotekansatt.
+        /// Oppretter en ny bibliotekar.
         /// </summary>
         public Librarian(
             string id,
@@ -23,9 +23,9 @@ namespace UniversitySystem.Models
                 email,
                 username,
                 password,
-                RoleType.Librarian,
-                "Bibliotekansatt",
-                department)
+                department,
+                "Bibliotekar",
+                RoleType.Librarian)
         {
         }
     }
