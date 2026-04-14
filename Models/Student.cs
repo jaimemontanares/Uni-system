@@ -3,21 +3,21 @@ using System.Collections.Generic;
 namespace UniversitySystem.Models
 {
     /// <summary>
-    /// Representerer en student i systemet.
+    /// Representerer en student ved universitetet.
     /// </summary>
     public class Student : User
     {
         /// <summary>
-        /// Studentens unike studentnummer.
+        /// Studentens studentnummer.
         /// </summary>
         public string StudentId { get; set; }
 
         /// <summary>
-        /// Liste over kurskoder studenten er meldt på.
-        /// Denne brukes som enkel oversikt i modellen.
-        /// Selve koblingen mellom student og kurs håndteres i CourseService.
+        /// Liste over kurskoder studenten er meldt opp i.
+        /// Denne listen kan brukes som enkel oversikt i modellen,
+        /// selv om den faktiske koblingen også håndteres i CourseService.
         /// </summary>
-        public List<string> EnrolledCourses { get; set; } = new();
+        public List<string> EnrolledCourseCodes { get; set; }
 
         /// <summary>
         /// Oppretter en ny student.
@@ -32,6 +32,7 @@ namespace UniversitySystem.Models
             : base(id, name, email, username, password, RoleType.Student)
         {
             StudentId = studentId;
+            EnrolledCourseCodes = new List<string>();
         }
     }
 }
