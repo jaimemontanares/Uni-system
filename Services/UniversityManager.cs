@@ -1,34 +1,36 @@
+using System;
+
 namespace UniversitySystem.Services
 {
     /// <summary>
     /// Samler systemets sentrale tjenester på ett sted.
-    /// Klassen fungerer som et enkelt tilgangspunkt til bruker-,
-    /// autentiserings-, kurs- og biblioteklogikk.
+    /// Denne klassen brukes som et enkelt kontaktpunkt mellom UI og service-laget.
     /// </summary>
     public class UniversityManager
     {
         /// <summary>
-        /// Håndterer oppslag, registrering og administrasjon av brukere.
+        /// Tjeneste for håndtering av brukere.
         /// </summary>
         public UserService UserService { get; }
 
         /// <summary>
-        /// Håndterer registrering og innlogging.
+        /// Tjeneste for innlogging og registrering.
         /// </summary>
         public AuthorizationService AuthorizationService { get; }
 
         /// <summary>
-        /// Håndterer kurs, påmelding, pensum og karakterer.
+        /// Tjeneste for kurs og kurspåmelding.
         /// </summary>
         public CourseService CourseService { get; }
 
         /// <summary>
-        /// Håndterer bøker, utlån og innlevering.
+        /// Tjeneste for bibliotek og utlån.
         /// </summary>
         public LibraryService LibraryService { get; }
 
         /// <summary>
-        /// Oppretter alle nødvendige tjenester for universitetssystemet.
+        /// Oppretter en ny instans av UniversityManager og initialiserer alle tjenester
+        /// i riktig rekkefølge.
         /// </summary>
         public UniversityManager()
         {
