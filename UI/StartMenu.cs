@@ -33,7 +33,7 @@ namespace UniversitySystem.UI
                 Console.Clear();
                 Console.WriteLine("=== UNIVERSITY MANAGEMENT SYSTEM ===");
                 Console.WriteLine("[1] Jeg er eksisterende bruker");
-                Console.WriteLine("[2] Jeg er ny bruker");
+                Console.WriteLine("[2] Registrer ny student");
                 Console.WriteLine("[0] Avslutt");
 
                 int choice = InputHelper.ReadMenuChoice(0, 2);
