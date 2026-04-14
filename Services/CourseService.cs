@@ -7,22 +7,11 @@ namespace UniversitySystem.Services
 {
     /// <summary>
     /// Serviceklasse som håndterer kurs og kurspåmeldinger.
-    /// Ansvar:
-    /// - Opprette og søke etter kurs
-    /// - Melde studenter på og av kurs
-    /// - Hente kurs og påmeldinger
-    /// - Registrere pensum
-    /// - Sette karakterer
     /// </summary>
     public class CourseService
     {
-        // Intern liste over alle kurs i systemet.
         private readonly List<Course> _courses = new();
-
-        // Intern liste over alle påmeldinger mellom studenter og kurs.
         private readonly List<CourseEnrollment> _enrollments = new();
-
-        // Referanse til UserService for å slå opp brukere og kontrollere roller.
         private readonly UserService _userService;
 
         /// <summary>
@@ -34,7 +23,7 @@ namespace UniversitySystem.Services
         }
 
         /// <summary>
-        /// Returnerer alle kurs som en kopi av internlisten.
+        /// Returnerer alle kurs.
         /// </summary>
         public List<Course> GetAllCourses()
         {
@@ -42,7 +31,7 @@ namespace UniversitySystem.Services
         }
 
         /// <summary>
-        /// Returnerer alle kurspåmeldinger som en kopi av internlisten.
+        /// Returnerer alle påmeldinger.
         /// </summary>
         public List<CourseEnrollment> GetAllEnrollments()
         {
@@ -51,7 +40,6 @@ namespace UniversitySystem.Services
 
         /// <summary>
         /// Finner et kurs basert på kurskode.
-        /// Returnerer null hvis kurset ikke finnes.
         /// </summary>
         public Course? FindCourseByCode(string courseCode)
         {
@@ -143,7 +131,7 @@ namespace UniversitySystem.Services
         }
 
         /// <summary>
-        /// Melder en student på et kurs dersom studenten og kurset er gyldige.
+        /// Melder en student på et kurs.
         /// </summary>
         public bool EnrollStudent(string studentId, string courseCode, out string message)
         {
@@ -218,7 +206,7 @@ namespace UniversitySystem.Services
         }
 
         /// <summary>
-        /// Henter alle kurs en bestemt student er meldt på.
+        /// Henter alle kurs en student er meldt på.
         /// </summary>
         public List<Course> GetCoursesForStudent(string studentId)
         {
@@ -233,7 +221,7 @@ namespace UniversitySystem.Services
         }
 
         /// <summary>
-        /// Henter alle kurs en bestemt faglærer underviser i.
+        /// Henter alle kurs en faglærer underviser i.
         /// </summary>
         public List<Course> GetCoursesForLecturer(string lecturerId)
         {
