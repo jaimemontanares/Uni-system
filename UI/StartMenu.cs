@@ -1,21 +1,29 @@
+using System;
 using UniversitySystem.Models;
 using UniversitySystem.Services;
 
 namespace UniversitySystem.UI
 {
     /// <summary>
-    /// Applikasjonens hovedmeny.
+    /// Applikasjonens startmeny.
     /// Håndterer oppstart, innlogging, registrering og videresending til riktig rollemeny.
     /// </summary>
-    public class Menu
+    public class StartMenu
     {
         private readonly UniversityManager _manager;
 
-        public Menu(UniversityManager manager)
+        /// <summary>
+        /// Oppretter en ny startmeny.
+        /// </summary>
+        /// <param name="manager">Systemets tjenestesamler.</param>
+        public StartMenu(UniversityManager manager)
         {
             _manager = manager ?? throw new ArgumentNullException(nameof(manager));
         }
 
+        /// <summary>
+        /// Starter hovedløkken for applikasjonen.
+        /// </summary>
         public void Run()
         {
             bool running = true;
@@ -47,6 +55,9 @@ namespace UniversitySystem.UI
             }
         }
 
+        /// <summary>
+        /// Håndterer innlogging for eksisterende brukere.
+        /// </summary>
         private void HandleLogin()
         {
             Console.Clear();
@@ -55,7 +66,7 @@ namespace UniversitySystem.UI
             string username = InputHelper.ReadRequiredString("Brukernavn: ");
             string password = InputHelper.ReadRequiredString("Passord: ");
 
-            User? user = _manager.AuthService.Login(username, password);
+            User? user = _manager.AuthorizationService.Login(username, password);
 
             if (user == null)
             {
@@ -67,6 +78,9 @@ namespace UniversitySystem.UI
             RouteUser(user);
         }
 
+        /// <summary>
+        /// Håndterer registrering av ny student.
+        /// </summary>
         private void HandleRegistration()
         {
             Console.Clear();
@@ -77,11 +91,13 @@ namespace UniversitySystem.UI
             string username = InputHelper.ReadRequiredString("Ønsket brukernavn: ");
             string password = InputHelper.ReadRequiredString("Ønsket passord: ");
 
-            string id = $"U{_manager.UserService.GetAllUsers().Count + 1}";
-            string studentId = $"S{1000 + _manager.UserService.GetAllUsers().Count + 1}";
+            int nextNumber = _manager.UserService.GetAllUsers().Count + 1;
 
-            bool success = _manager.AuthService.RegisterStudent(
-                id,
+            string userId = $"U{nextNumber}";
+            string studentId = $"S{1000 + nextNumber}";
+
+            bool success = _manager.AuthorizationService.RegisterStudent(
+                userId,
                 studentId,
                 name,
                 email,
@@ -90,9 +106,19 @@ namespace UniversitySystem.UI
                 out string message);
 
             Console.WriteLine(message);
+
+            if (success)
+            {
+                Console.WriteLine("Du kan nå logge inn med brukernavnet og passordet du nettopp valgte.");
+            }
+
             InputHelper.Pause();
         }
 
+        /// <summary>
+        /// Sender brukeren videre til riktig rollemeny.
+        /// </summary>
+        /// <param name="user">Innlogget bruker.</param>
         private void RouteUser(User user)
         {
             switch (user.Role)
