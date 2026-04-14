@@ -13,23 +13,35 @@ namespace UniversitySystem.Tests
             var userService = new UserService();
             var libraryService = new LibraryService(userService);
 
-            var student = new Student("U1", "S1001", "Test Student", "student@test.no")
-            {
-                Username = "student",
-                Password = "1234"
-            };
+            var librarian = new Librarian(
+                "U10",
+                "LB100",
+                "Test Librarian",
+                "librarian@test.no",
+                "librarian",
+                "1234",
+                "Bibliotek");
 
+            var student = new Student(
+                "U1",
+                "S1001",
+                "Test Student",
+                "student@test.no",
+                "student",
+                "1234");
+
+            userService.AddUser(librarian);
             userService.AddUser(student);
 
-            libraryService.RegisterBook("B1", "Clean Code", "Robert C. Martin", 1, out _);
-            libraryService.BorrowBook(student.UserId, "B1", out _);
+            libraryService.RegisterBook("B1", "Clean Code", "Robert C. Martin", 1, librarian.Id, out _);
+            libraryService.BorrowBook(student.Id, "B1", out _);
 
             // Act
-            bool result = libraryService.BorrowBook(student.UserId, "B1", out string message);
+            bool result = libraryService.BorrowBook(student.Id, "B1", out string message);
 
             // Assert
             Assert.False(result);
-            Assert.Equal("Boken er ikke tilgjengelig for utlån.", message);
+            Assert.Equal("Ingen tilgjengelige eksemplarer.", message);
         }
 
         [Fact]
@@ -39,19 +51,31 @@ namespace UniversitySystem.Tests
             var userService = new UserService();
             var libraryService = new LibraryService(userService);
 
-            var student = new Student("U1", "S1001", "Test Student", "student@test.no")
-            {
-                Username = "student",
-                Password = "1234"
-            };
+            var librarian = new Librarian(
+                "U10",
+                "LB100",
+                "Test Librarian",
+                "librarian@test.no",
+                "librarian",
+                "1234",
+                "Bibliotek");
 
+            var student = new Student(
+                "U1",
+                "S1001",
+                "Test Student",
+                "student@test.no",
+                "student",
+                "1234");
+
+            userService.AddUser(librarian);
             userService.AddUser(student);
 
-            libraryService.RegisterBook("B1", "Clean Code", "Robert C. Martin", 1, out _);
-            libraryService.BorrowBook(student.UserId, "B1", out _);
+            libraryService.RegisterBook("B1", "Clean Code", "Robert C. Martin", 1, librarian.Id, out _);
+            libraryService.BorrowBook(student.Id, "B1", out _);
 
             // Act
-            bool result = libraryService.ReturnBook(student.UserId, "B1", out string message);
+            bool result = libraryService.ReturnBook(student.Id, "B1", out string message);
 
             // Assert
             Assert.True(result);
