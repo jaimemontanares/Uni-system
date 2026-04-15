@@ -142,7 +142,7 @@ sequenceDiagram
 ```
 ---
 
-##BPMN-like Process (User Flow)
+## BPMN-like Process (User Flow)
 ```mermaid
 flowchart TD
     Start([Start]) --> Choice{Existing user?}
