@@ -49,6 +49,12 @@ This project has undergone a structured refactoring process to improve:
 
 ## Architecture (Before)
 
+###Problems:
+
+- Tight coupling
+- Logic inside UI
+- Weak separation of concerns
+
 ```mermaid
 graph TD
     Program --> Menu
@@ -58,15 +64,17 @@ graph TD
     CourseLogic --> Course
     LibraryLogic --> Book
 ```
-###Problems:
-
-Tight coupling
-Logic inside UI
-Weak separation of concerns
 
 ---
 
 ## Architecture (After)
+
+###Improvements:
+
+- Clear layered architecture
+- Separation of concerns (UI vs Services)
+- Role-based UI structure
+- Centralized business logic in services
 
 ```mermaid
 graph TD
@@ -89,12 +97,6 @@ graph TD
     LibraryService --> Book
     LibraryService --> Loan
 ```
-###Improvements:
-
-Clear layered architecture
-Separation of concerns (UI vs Services)
-Role-based UI structure
-Centralized business logic in services
 
 ---
 
