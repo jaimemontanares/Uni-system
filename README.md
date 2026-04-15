@@ -64,7 +64,9 @@ Tight coupling
 Logic inside UI
 Weak separation of concerns
 
-## Architecture (Before)
+---
+
+## Architecture (After)
 
 ```mermaid
 graph TD
