@@ -49,7 +49,7 @@ This project has undergone a structured refactoring process to improve:
 
 ## Architecture (Before)
 
-###Problems:
+### Problems:
 
 - Tight coupling
 - Logic inside UI
@@ -69,7 +69,7 @@ graph TD
 
 ## Architecture (After)
 
-###Improvements:
+### Improvements:
 
 - Clear layered architecture
 - Separation of concerns (UI vs Services)
@@ -100,7 +100,7 @@ graph TD
 
 ---
 
-##Application Flow
+## Application Flow
 
 ```mermaid
 graph TD
@@ -118,7 +118,7 @@ graph TD
 ```
 --- 
 
-##Login Sequence Diagram
+## Login Sequence Diagram
 
 ```mermaid
 sequenceDiagram
@@ -168,26 +168,26 @@ flowchart TD
 
 ---
 
-##Features
+## Features
 
-###Authentication
+### Authentication
 - Login with username/password
 - Register new student
 - Role-based routing after login
-###Student
+### Student
 - View enrolled courses
 - Enroll / unenroll from courses
 - View grades
 - Search books
 - Borrow and return books
-###Lecturer
+### Lecturer
 - Create courses
 - Prevent duplicate course codes/names
 - Add syllabus to courses
 - Assign grades to students
 - Search books
 - Borrow and return books
-####Librarian
+### Librarian
 - Register books
 - View inventory
 - View active loans
@@ -227,7 +227,7 @@ flowchart TD
 - Login requires valid username and password
 
 ---
-##Example (Before vs After Code)
+## Example (Before vs After Code)
 // Before
 ```bash
 var course = new Course(code, name, maxCapacity);
