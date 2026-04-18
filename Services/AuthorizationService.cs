@@ -21,8 +21,9 @@ namespace UniversitySystem.Services
         }
 
         /// <summary>
-        /// Logger inn en bruker dersom brukernavn og passord stemmer.
+        /// Forsøker å logge inn en bruker med brukernavn og passord.
         /// Returnerer brukeren ved vellykket innlogging, ellers null.
+        /// Metoden gjør ingen feilmelding direkte, slik at UI-laget selv kan vise passende respons.
         /// </summary>
         /// <param name="username">Brukernavn.</param>
         /// <param name="password">Passord.</param>
@@ -42,7 +43,10 @@ namespace UniversitySystem.Services
         }
 
         /// <summary>
-        /// Registrerer en ny student dersom input er gyldig og brukernavn/e-post ikke er i bruk.
+        /// Registrerer en ny student dersom alle obligatoriske felt er gyldige
+        /// og identitetsverdier som bruker-ID, brukernavn og e-post er unike.
+        /// Resultatet sendes tilbake som boolsk verdi, mens message forklarer årsaken
+        /// til suksess eller feil for brukergrensesnittet.
         /// </summary>
         /// <param name="userId">Intern bruker-ID.</param>
         /// <param name="studentId">Student-ID.</param>
@@ -138,7 +142,9 @@ namespace UniversitySystem.Services
         }
 
         /// <summary>
-        /// Registrerer en ny utvekslingsstudent dersom input er gyldig.
+        /// Registrerer en ny utvekslingsstudent.
+        /// I tillegg til vanlige brukerdata må oppholdsperiode, hjemuniversitet
+        /// og land være gyldige.
         /// </summary>
         /// <param name="userId">Intern bruker-ID.</param>
         /// <param name="studentId">Student-ID.</param>
@@ -239,7 +245,8 @@ namespace UniversitySystem.Services
         }
 
         /// <summary>
-        /// Registrerer en ny faglærer dersom input er gyldig.
+        /// Registrerer en ny faglærer dersom alle felt er utfylt
+        /// og identiteten ikke kolliderer med eksisterende brukere.
         /// </summary>
         public bool RegisterLecturer(
             string userId,
@@ -305,7 +312,8 @@ namespace UniversitySystem.Services
         }
 
         /// <summary>
-        /// Registrerer en ny bibliotekar dersom input er gyldig.
+        /// Registrerer en ny bibliotekar dersom alle felt er utfylt
+        /// og identiteten ikke kolliderer med eksisterende brukere.
         /// </summary>
         public bool RegisterLibrarian(
             string userId,
