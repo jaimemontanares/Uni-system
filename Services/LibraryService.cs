@@ -50,8 +50,9 @@ namespace UniversitySystem.Services
         }
 
         /// <summary>
-        /// Registrerer en ny bok dersom brukeren er bibliotekar
-        /// og input er gyldig.
+        /// Registrerer en ny bok i biblioteket.
+        /// Bare brukere med rollen Librarian kan utføre operasjonen.
+        /// Bok-ID må være unik for å sikre entydig oppslag og korrekt utlånshistorikk.
         /// </summary>
         public bool RegisterBook(
             string id,
@@ -137,8 +138,11 @@ namespace UniversitySystem.Services
         }
 
         /// <summary>
-        /// Registrerer utlån av bok dersom bruker og bok er gyldige
-        /// og det finnes tilgjengelige eksemplarer.
+        /// Registrerer utlån av en bok dersom:
+        /// - brukeren finnes og har lov til å låne
+        /// - boken finnes
+        /// - minst ett eksemplar er tilgjengelig
+        /// - brukeren ikke allerede har et aktivt lån på samme bok
         /// </summary>
         public bool BorrowBook(string userId, string bookId, out string message)
         {
@@ -198,7 +202,9 @@ namespace UniversitySystem.Services
         }
 
         /// <summary>
-        /// Registrerer innlevering av bok dersom et aktivt lån finnes.
+        /// Registrerer innlevering av en bok ved å avslutte aktivt lån
+        /// og øke antall tilgjengelige eksemplarer.
+        /// Operasjonen krever at et aktivt lån faktisk finnes.
         /// </summary>
         public bool ReturnBook(string userId, string bookId, out string message)
         {
@@ -234,7 +240,8 @@ namespace UniversitySystem.Services
         }
 
         /// <summary>
-        /// Returnerer alle aktive lån.
+        /// Returnerer bare lån som fortsatt er aktive,
+        /// altså lån der boka ennå ikke er levert tilbake.
         /// </summary>
         public List<Loan> GetActiveLoans()
         {
