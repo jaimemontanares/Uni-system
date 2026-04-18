@@ -23,7 +23,8 @@ namespace UniversitySystem.Services
         }
 
         /// <summary>
-        /// Returnerer alle kurs.
+        /// Returnerer en kopi av alle registrerte kurs.
+        /// En kopi brukes for å beskytte intern tilstand mot endringer utenfra.
         /// </summary>
         public List<Course> GetAllCourses()
         {
@@ -70,7 +71,11 @@ namespace UniversitySystem.Services
         }
 
         /// <summary>
-        /// Oppretter et nytt kurs dersom input er gyldig og brukeren er faglærer.
+        /// Oppretter et nytt kurs dersom alle forretningsregler er oppfylt:
+        /// - kurskode og kursnavn må være utfylt
+        /// - studiepoeng og kapasitet må være større enn 0
+        /// - brukeren må være faglærer
+        /// - kurskode og kursnavn må være unike
         /// </summary>
         public bool CreateCourse(
             string courseCode,
@@ -131,7 +136,11 @@ namespace UniversitySystem.Services
         }
 
         /// <summary>
-        /// Melder en student på et kurs.
+        /// Melder en student på et kurs dersom:
+        /// - studenten finnes og har gyldig studentrolle
+        /// - kurset finnes
+        /// - studenten ikke allerede er påmeldt
+        /// - kurset ikke er fullt
         /// </summary>
         public bool EnrollStudent(string studentId, string courseCode, out string message)
         {
@@ -206,7 +215,8 @@ namespace UniversitySystem.Services
         }
 
         /// <summary>
-        /// Henter alle kurs en student er meldt på.
+        /// Henter alle kurs som en bestemt student faktisk er meldt på,
+        /// basert på koblingen mellom kurslisten og påmeldingslisten.
         /// </summary>
         public List<Course> GetCoursesForStudent(string studentId)
         {
