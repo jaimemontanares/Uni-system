@@ -18,8 +18,9 @@ namespace UniversitySystem.Services
         private readonly List<User> _users = new();
 
         /// <summary>
-        /// Legger til en ny bruker i systemet.
-        /// Returnerer false dersom brukeren er ugyldig eller allerede finnes.
+        /// Legger til en ny bruker dersom alle obligatoriske felt er fylt ut
+        /// og identitetsverdier ikke kolliderer med eksisterende brukere.
+        /// Metoden fungerer som en sentral beskyttelse mot ugyldige eller dupliserte brukere.
         /// </summary>
         /// <param name="user">Brukeren som skal legges til.</param>
         /// <returns>True hvis brukeren ble lagt til, ellers false.</returns>
@@ -71,7 +72,6 @@ namespace UniversitySystem.Services
         /// Finner en bruker basert på intern bruker-ID.
         /// Returnerer null hvis brukeren ikke finnes.
         /// </summary>
-        /// <param name="userId">Intern bruker-ID.</param>
         /// <returns>Bruker eller null.</returns>
         public User? FindById(string userId)
         {
@@ -88,7 +88,6 @@ namespace UniversitySystem.Services
         /// Finner en bruker basert på brukernavn.
         /// Returnerer null hvis brukeren ikke finnes.
         /// </summary>
-        /// <param name="username">Brukernavn.</param>
         /// <returns>Bruker eller null.</returns>
         public User? FindByUsername(string username)
         {
@@ -105,7 +104,6 @@ namespace UniversitySystem.Services
         /// Finner en bruker basert på e-postadresse.
         /// Returnerer null hvis brukeren ikke finnes.
         /// </summary>
-        /// <param name="email">E-postadresse.</param>
         /// <returns>Bruker eller null.</returns>
         public User? FindByEmail(string email)
         {
@@ -119,9 +117,9 @@ namespace UniversitySystem.Services
         }
 
         /// <summary>
-        /// Sjekker om en intern bruker-ID allerede finnes i systemet.
+        /// Sjekker om intern bruker-ID allerede er i bruk.
+        /// Brukes i validering før registrering av nye brukere.
         /// </summary>
-        /// <param name="userId">Intern bruker-ID.</param>
         /// <returns>True hvis ID-en finnes, ellers false.</returns>
         public bool IdExists(string userId)
         {
@@ -137,7 +135,6 @@ namespace UniversitySystem.Services
         /// <summary>
         /// Sjekker om et brukernavn allerede finnes i systemet.
         /// </summary>
-        /// <param name="username">Brukernavn.</param>
         /// <returns>True hvis brukernavnet finnes, ellers false.</returns>
         public bool UsernameExists(string username)
         {
@@ -153,7 +150,6 @@ namespace UniversitySystem.Services
         /// <summary>
         /// Sjekker om en e-postadresse allerede finnes i systemet.
         /// </summary>
-        /// <param name="email">E-postadresse.</param>
         /// <returns>True hvis e-posten finnes, ellers false.</returns>
         public bool EmailExists(string email)
         {
@@ -168,8 +164,8 @@ namespace UniversitySystem.Services
 
         /// <summary>
         /// Returnerer alle brukere med en bestemt rolle.
+        /// Dette gjør det mulig å filtrere brukerbasen uten at UI-laget må kjenne intern struktur.
         /// </summary>
-        /// <param name="role">Rollen det skal filtreres på.</param>
         /// <returns>Liste med brukere som har rollen.</returns>
         public List<User> GetUsersByRole(RoleType role)
         {
